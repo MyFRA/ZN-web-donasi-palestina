@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import './index.css'
 import HomeIndex from './pages/home/HomeIndex';
+import 'remixicon/fonts/remixicon.css'
 
 const router = createBrowserRouter([
     {
