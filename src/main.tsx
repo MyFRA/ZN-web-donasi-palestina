@@ -12,6 +12,7 @@ import AppLayout from './layouts/AppLayout';
 import CartContextProvider from './context/CartContext';
 import LoadingContextProvider from './context/LoadingContext';
 import CartsIndex from './pages/carts/CartsIndex';
+import CheckoutIndex from './pages/checkout/CheckoutIndex';
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
             {
                 path: '/carts',
                 element: <CartsIndex />,
+            },
+            {
+                path: '/checkout',
+                element: <CheckoutIndex />,
             }
         ]
     },

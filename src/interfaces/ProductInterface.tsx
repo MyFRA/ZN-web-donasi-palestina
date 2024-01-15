@@ -7,4 +7,5 @@ export interface ProductInterface {
     updated_at: string
     sales: number
     qty: number | null
+    weight: number
 }

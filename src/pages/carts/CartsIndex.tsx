@@ -3,14 +3,21 @@ import { ProductInterface } from "../../interfaces/ProductInterface"
 import { CartContext } from "../../context/CartContext"
 import Api from "../../utils/Api"
 import CardComponent from "../../components/shared/CardComponent"
+import { useNavigate } from "react-router-dom";
 
 export default function CartsIndex() {
+
+    /**
+     * Hooks
+     * 
+     */
+    const navigate = useNavigate();
 
     /**
      * Contexts
      * 
      */
-    const { carts } = useContext(CartContext)
+    const { carts, reloadCarts } = useContext(CartContext)
 
     /**
      * States
@@ -85,6 +92,18 @@ export default function CartsIndex() {
         }
     }
 
+    const moveToCheckoutPage = () => {
+        let cartFixed = cartProducts.map((cartProduct) => ({
+            qty: cartProduct.qty,
+            id: cartProduct.id
+        }))
+
+        localStorage.setItem('carts', JSON.stringify(cartFixed))
+        reloadCarts(() => {
+            navigate('/checkout')
+        })
+    }
+
 
     useEffect(() => {
         loadCartProducts()
@@ -140,7 +159,7 @@ export default function CartsIndex() {
                         <span className="text-sm text-gray-600">Total</span>
                         <h4 className="font-semibold text-gray-700">Rp{cartProducts.reduce((prev, cur) => prev = prev + (cur.price * (cur.qty ? cur.qty : 0)), 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}</h4>
                     </div>
-                    <button className="bg-blue-500 text-white font-semibold rounded py-1.5 px-3">Checkout</button>
+                    <button onClick={moveToCheckoutPage} className="bg-blue-500 text-white font-semibold rounded py-1.5 px-3">Checkout</button>
                 </div>
             </CardComponent>
         </div>

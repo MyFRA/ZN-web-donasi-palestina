@@ -4,24 +4,32 @@ import { CartInterface } from "../interfaces/CartInterface"
 
 interface CartContextInterface {
     carts: Array<CartInterface>
-    reloadCarts: () => void
+    reloadCarts: (cb?: Function) => void
     addToCart: (id: number, successCb: () => void, errCb: () => void) => void
 }
 
-export const CartContext = createContext<CartContextInterface>({ carts: [], reloadCarts: () => { }, addToCart: (id: number, successCb: () => void, errCb: () => void) => { } })
+export const CartContext = createContext<CartContextInterface>({ carts: [], reloadCarts: (cb?: Function) => { }, addToCart: (id: number, successCb: () => void, errCb: () => void) => { } })
 
 
 const CartContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [carts, setCarts] = useState<Array<CartInterface>>([])
 
-    const reloadCarts = () => {
+    const reloadCarts = (cb?: Function) => {
         const storageCarts = localStorage.getItem('carts')
         if (!storageCarts) {
             setCarts([])
             localStorage.setItem('carts', JSON.stringify([]))
+
+            if (cb) {
+                cb()
+            }
         } else if (!Array.isArray(JSON.parse(storageCarts))) {
             setCarts([])
             localStorage.setItem('carts', JSON.stringify([]))
+
+            if (cb) {
+                cb()
+            }
         } else {
             const cartsTemp = JSON.parse(storageCarts)
             const fixedCartsTemp: Array<CartInterface> = []
@@ -38,6 +46,10 @@ const CartContextProvider = ({ children }: { children: React.ReactNode }) => {
             })).then(() => {
                 localStorage.setItem('carts', JSON.stringify(fixedCartsTemp))
                 setCarts(fixedCartsTemp)
+
+                if (cb) {
+                    cb()
+                }
             })
 
         }
