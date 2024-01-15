@@ -106,6 +106,7 @@ export default function HomeIndex() {
                     <Link to={'/donate'} className="block bg-blue-600 shadow-md w-full rounded-md text-center text-white font-inter font-semibold py-2">Donasi Sekarang!</Link>
                 </div>
             </div>
+            <br />
             <CardComponent>
                 <h3 className="font-inter text-lg font-semibold text-gray-800">Penggalang Dana</h3>
                 <Link to={'/'} className="mt-4 flex items-center gap-x-6">

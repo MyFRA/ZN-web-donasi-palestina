@@ -13,6 +13,7 @@ import CartContextProvider from './context/CartContext';
 import LoadingContextProvider from './context/LoadingContext';
 import CartsIndex from './pages/carts/CartsIndex';
 import CheckoutIndex from './pages/checkout/CheckoutIndex';
+import SuccessIndex from './pages/success/SuccessIndex';
 
 const router = createBrowserRouter([
     {
@@ -34,7 +35,11 @@ const router = createBrowserRouter([
             {
                 path: '/checkout',
                 element: <CheckoutIndex />,
-            }
+            },
+            {
+                path: '/success',
+                element: <SuccessIndex />,
+            },
         ]
     },
 ]);
