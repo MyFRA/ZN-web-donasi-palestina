@@ -5,6 +5,9 @@ import Api from "../../utils/Api"
 import CardComponent from "../../components/shared/CardComponent"
 import Select from 'react-select'
 import { ReactSelectOptionInterface } from "../../interfaces/ReactSelectOptionInterface"
+import toast, { Toaster } from 'react-hot-toast';
+import { AxiosError } from "axios"
+import { LoadingContext } from "../../context/LoadingContext"
 
 export default function CheckoutIndex() {
 
@@ -13,20 +16,20 @@ export default function CheckoutIndex() {
     * 
     */
     const { carts } = useContext(CartContext)
+    const { setLoadingContext } = useContext(LoadingContext)
 
     /**
      * States
      * 
      */
     const [cartProducts, setCartProducts] = useState<Array<ProductInterface>>([])
-    const [modalShareOpen, setModalShareOpen] = useState<boolean>(false)
     const [provinces, setProvinces] = useState<Array<ReactSelectOptionInterface>>([])
     const [selectedProvince, setSelectedProvince] = useState<ReactSelectOptionInterface | null>(null)
     const [cities, setCities] = useState<Array<ReactSelectOptionInterface>>([])
     const [selectedCity, setSelectedCity] = useState<ReactSelectOptionInterface | null>(null)
     const [district, setDistrict] = useState<string>('')
     const [village, setVillage] = useState<string>('')
-    const [address, setAddress] = useState<string>('')
+    const [homeOfficeAddress, setHomeOfficeAddress] = useState<string>('')
     const [note, setNote] = useState<string>('')
     const [fullname, setFullname] = useState<string>('')
     const [email, setEmail] = useState<string>('')
@@ -36,6 +39,7 @@ export default function CheckoutIndex() {
     const [selectedCourier, setSelectedCourier] = useState<ReactSelectOptionInterface | null>(null)
     const [selectedCost, setSelectedCost] = useState<ReactSelectOptionInterface | null>(null)
     const [costs, setCosts] = useState<Array<ReactSelectOptionInterface>>([])
+    const [postalCode, setPostalCode] = useState<string>('')
 
     /**
      * Func
@@ -85,14 +89,51 @@ export default function CheckoutIndex() {
             weight: cartProducts.reduce((prev: number, cur: ProductInterface) => prev = prev + (cur.weight * (cur.qty ? cur.qty : 0)), 0)
         }).then((res) => {
             setCosts(res.data.data.map((e: any) => ({
-                value: e.service + ' | ' + 'Rp' + e.cost[0].value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' | ' + e.cost[0].etd,
+                value: e.cost[0].value,
                 label: e.service + ' | ' + 'Rp' + e.cost[0].value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' | ' + e.cost[0].etd,
             })))
         })
     }
 
     const doCheckout = () => {
+        setLoadingContext(true)
 
+        const explodedSelectedCost = selectedCost?.label.split('|')
+        console.log(explodedSelectedCost)
+
+        Api.post('checkouts', {
+            products: cartProducts.map((cartProduct) => ({
+                id: cartProduct.id,
+                qty: cartProduct.qty
+            })),
+            destination_province: selectedProvince?.label,
+            destination_province_id: selectedProvince?.value,
+            destination_city: selectedCity?.label,
+            destination_city_id: selectedCity?.value,
+            destination_district: district,
+            destination_village: village,
+            home_office_address: homeOfficeAddress,
+            postal_code: postalCode,
+            shipping_note: note,
+            courier: selectedCourier?.value,
+            courier_cost_service: explodedSelectedCost ? explodedSelectedCost[0] : null,
+            courier_cost_value: selectedCost?.value,
+            courier_cost_etd: explodedSelectedCost ? explodedSelectedCost[2] : null,
+            full_name: fullname,
+            whatsapp_number: whatsappNumber,
+            email: email,
+            message: message
+        }).then((res) => {
+            setLoadingContext(false)
+
+            window.snap.pay(res.data.token);
+        }).catch((error) => {
+            setLoadingContext(false)
+            const err = error as AxiosError
+            const errResponseMessage: any = err.response?.data
+
+            toast.error(errResponseMessage.error, { position: 'top-right' })
+        })
     }
 
     useEffect(() => {
@@ -116,7 +157,7 @@ export default function CheckoutIndex() {
                 .then((res) => {
                     setCities(res.data.data.map((e: any) => ({
                         value: e.city_id,
-                        label: e.city_name,
+                        label: e.type + ' ' + e.city_name,
                     })))
                 })
         }
@@ -124,40 +165,7 @@ export default function CheckoutIndex() {
 
     return (
         <div>
-            {/* Modal Ongkir */}
-            <main className={`antialiased bg-[rgba(0, 0, 0, 0.4)] text-gray-900 font-sans overflow-x-hidden fixed w-full top-0 z-50 ${modalShareOpen ? '' : 'hidden'}`}>
-                <div className="relative px-4 min-h-screen md:flex md:items-center md:justify-center flex justify-center">
-                    <div className="bg-black opacity-25 w-full h-full fixed z-10 inset-0"></div>
-                    <div className="bg-white rounded-lg w-3/12 p-5 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 top-[50%] left-[49%] -translate-x-2/4 -translate-y-1/2 h-fit">
-                        <div className="md:flex items-center">
-                            <div className="mt-4 md:mt-0 text-center md:text-left">
-                                <p className="font-bold">Share</p>
-                                <div className="flex items-center gap-x-2 mt-1">
-                                    <button className="flex bg-gray-100 hover:bg-gray-300 rounded-md py-1.5 gap-x-1 px-3 font-inter text-sm items-center">
-                                        <span className="text-xl">
-                                            <i className="ri-file-copy-line"></i>
-                                        </span>
-                                        <span className="text-gray-600 translate-y-[-2px] mt-1">Salin Link</span>
-                                    </button>
-                                    <button className="flex bg-gray-100 hover:bg-green-500 hover:text-white text-gray-600 rounded-md py-1.5 gap-x-1 px-3 font-inter text-sm items-center">
-                                        <span className="text-xl">
-                                            <i className="ri-whatsapp-line"></i>
-                                        </span>
-                                        <span className="translate-y-[-2px] mt-1">Whatsapp</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="text-center md:text-right mt-4 md:flex md:justify-end">
-                            <button type="button" onClick={() => {
-                                setModalShareOpen(false)
-                            }} className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4
-          md:mt-0 md:order-1">Tutup</button>
-                        </div>
-                    </div>
-                </div>
-            </main>
-            {/* End of Modal Ongkir */}
+            <Toaster />
 
             <CardComponent>
                 <div>
@@ -292,19 +300,27 @@ export default function CheckoutIndex() {
                         </div>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="address">Alamat Lengkap</label>
+                        <label htmlFor="home_office_address">Alamat Rumah / Kantor</label>
                         <div>
-                            <textarea style={{ height: '120px' }} name="address" id="address" value={address} onChange={(e) => {
-                                setAddress(e.target.value)
-                            }} className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-400 font-inter py-3" placeholder="Alamat Lengkap"></textarea>
+                            <textarea style={{ height: '120px' }} name="home_office_address" id="home_office_address" value={homeOfficeAddress} onChange={(e) => {
+                                setHomeOfficeAddress(e.target.value)
+                            }} className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-400 font-inter py-3" placeholder="Alamat Rumah / Kantor"></textarea>
                         </div>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="note">Catatan Pengiriman</label>
+                        <label htmlFor="postal_code">Kode Pos</label>
+                        <div>
+                            <input type="number" name="postal_code" id="postal_code" value={postalCode} onChange={(e) => {
+                                setPostalCode(e.target.value)
+                            }} className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-400 font-inter py-3" placeholder="Kode Pos" />
+                        </div>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="note">Catatan Pengiriman (Opsional)</label>
                         <div>
                             <textarea style={{ height: '120px' }} name="note" id="note" value={note} onChange={(e) => {
                                 setNote(e.target.value)
-                            }} className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-400 font-inter py-3" placeholder="Catatan Pengiriman"></textarea>
+                            }} className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-400 font-inter py-3" placeholder="Catatan Pengiriman (Opsional)"></textarea>
                         </div>
                     </div>
                 </div>
