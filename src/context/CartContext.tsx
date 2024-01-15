@@ -1,16 +1,18 @@
 import { createContext, useState } from "react"
 import Api from "../utils/Api"
+import { CartInterface } from "../interfaces/CartInterface"
 
-interface CartInterface {
-    id: number
-    qty: number
+interface CartContextInterface {
+    carts: Array<CartInterface>
+    reloadCarts: () => void
+    addToCart: (id: number, successCb: () => void, errCb: () => void) => void
 }
 
-export const CartContext = createContext({ carts: Array<CartInterface>, reloadCarts: () => { }, addToCart: (id: number, successCb: () => void, errCb: () => void) => { } })
+export const CartContext = createContext<CartContextInterface>({ carts: [], reloadCarts: () => { }, addToCart: (id: number, successCb: () => void, errCb: () => void) => { } })
 
 
 const CartContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [carts, setCarts] = useState<any>([])
+    const [carts, setCarts] = useState<Array<CartInterface>>([])
 
     const reloadCarts = () => {
         const storageCarts = localStorage.getItem('carts')

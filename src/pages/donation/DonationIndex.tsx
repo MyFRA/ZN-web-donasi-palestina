@@ -8,6 +8,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { CartContext } from "../../context/CartContext";
 import { LoadingContext } from "../../context/LoadingContext";
+import { ProductInterface } from "../../interfaces/ProductInterface";
 
 type AvailableDonationType = {
     description: string,
@@ -21,16 +22,6 @@ declare global {
     interface Window {
         snap: any;
     }
-}
-
-interface ProductInterface {
-    id: number
-    image: string
-    name: string
-    price: number
-    created_at: string
-    updated_at: string
-    sales: number
 }
 
 export default function DonationIndex() {

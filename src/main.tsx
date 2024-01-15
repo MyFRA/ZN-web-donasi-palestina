@@ -11,6 +11,7 @@ import DonationIndex from './pages/donation/DonationIndex';
 import AppLayout from './layouts/AppLayout';
 import CartContextProvider from './context/CartContext';
 import LoadingContextProvider from './context/LoadingContext';
+import CartsIndex from './pages/carts/CartsIndex';
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
             {
                 path: '/donate',
                 element: <DonationIndex />,
+            },
+            {
+                path: '/carts',
+                element: <CartsIndex />,
             }
         ]
     },
