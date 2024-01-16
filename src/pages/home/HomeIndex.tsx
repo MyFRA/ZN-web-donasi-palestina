@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import CardComponent from "../../components/shared/CardComponent";
+import Api from "../../utils/Api";
+import { StringUtil } from "../../utils/StringUtil";
 
 export default function HomeIndex() {
 
@@ -12,6 +14,8 @@ export default function HomeIndex() {
     const [modalShareOpen, setModalShareOpen] = useState<boolean>(false)
     const [offsetY, setOffsetY] = useState<number>(0)
     const [showDonationComponentBottom, setShowDonationComponentBottom] = useState(false)
+    const [amountDonation, setAmountDonation] = useState(0)
+    const [amountDonatur, setAmountDonatur] = useState(0)
 
     const toggleOpenedNews = (numParram: number) => {
         const copyArr = [...openedNews]
@@ -26,12 +30,24 @@ export default function HomeIndex() {
 
     const onScroll = () => setOffsetY(window.scrollY);
 
+    const loadDonationCollected = () => {
+        Api.get('/recap-donation/donation-collected')
+            .then((res) => {
+                setAmountDonation(res.data.data.amount_donation)
+                setAmountDonatur(res.data.data.amount_donatur)
+            })
+    }
+
     useEffect(() => {
         window.removeEventListener('scroll', onScroll);
         window.addEventListener('scroll', onScroll, { passive: true });
 
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
+
+    useEffect(() => {
+        loadDonationCollected()
+    }, [])
 
     useEffect(() => {
         if (offsetY >= 528) {
@@ -88,16 +104,16 @@ export default function HomeIndex() {
                 </span>
                 <div className="mt-3">
                     <span className="flex items-center gap-x-1.5">
-                        <h3 className="font-inter text-gray-600 text-lg font-semibold">Rp 215.663.240</h3>
+                        <h3 className="font-inter text-gray-600 text-lg font-semibold">Rp {StringUtil.formatRupiah(amountDonation)}</h3>
                         <p className="font-inter text-gray-600 text-xs">dan masih terus dikumpulkan</p>
                     </span>
                     <div className="mt-1.5">
                         <div className="bg-gray-300 rounded-md h-3">
-                            <div className="bg-gradient-to-r rounded-md from-green-600 to-green-200 w-[60%] h-full"></div>
+                            <div className="bg-gradient-to-r rounded-md from-green-600 to-green-200 w-[5%] h-full"></div>
                         </div>
                         <div className="mt-2.5">
                             <span className="flex items-center gap-x-1 font-inter text-gray-600">
-                                <b className="text-xs">2.196</b> <span className="text-xs">Donatur</span>
+                                <b className="text-xs">{StringUtil.formatRupiah(amountDonatur)}</b> <span className="text-xs">Donatur</span>
                             </span>
                         </div>
                     </div>
