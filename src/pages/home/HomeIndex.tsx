@@ -215,7 +215,7 @@ export default function HomeIndex() {
             <br />
             <CardComponent>
                 <h3 className="font-inter text-lg font-semibold text-gray-800">Penggalang Dana</h3>
-                <Link to={'/'} className="mt-4 flex items-center gap-x-6">
+                <a href="https://kalasahan.space/wp/" target="_blank" className="mt-4 flex items-center gap-x-6">
                     <img className="w-16 rounded-full" src={settingCompany?.company_logo_url} alt="" />
                     <div>
                         <h4 className="font-inter text-blue-400 text-lg">{settingCompany?.company_name}</h4>
@@ -224,7 +224,7 @@ export default function HomeIndex() {
                             <span className="font-inter italic text-gray-400 text-xs">Verified Organization</span>
                         </div>
                     </div>
-                </Link>
+                </a>
             </CardComponent>
             <CardComponent>
                 <Tabs onSelect={(index) => setSelectedTabs(index)}>
