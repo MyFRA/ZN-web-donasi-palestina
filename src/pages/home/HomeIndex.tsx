@@ -9,6 +9,8 @@ import { SettingCompanyInterface } from "../../interfaces/SettingCompanyInterfac
 import { DonaturInterface } from "../../interfaces/DonaturInterface";
 import { BackendPaginationInterface } from "../../interfaces/BackendPaginationInterface";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
+import copy from 'copy-to-clipboard';
 
 export default function HomeIndex() {
 
@@ -141,6 +143,8 @@ export default function HomeIndex() {
     return (
 
         <div>
+            <Toaster />
+
             {/* Modal Share */}
             <main className={`antialiased bg-[rgba(0, 0, 0, 0.4)] text-gray-900 font-sans overflow-x-hidden fixed w-full top-0 z-50 ${modalShareOpen ? '' : 'hidden'}`}>
                 <div className="relative px-4 min-h-screen md:flex md:items-center md:justify-center flex justify-center">
@@ -150,13 +154,18 @@ export default function HomeIndex() {
                             <div className="mt-4 md:mt-0 text-center md:text-left">
                                 <p className="font-bold">Share</p>
                                 <div className="flex items-center gap-x-2 mt-1">
-                                    <button className="flex bg-gray-100 hover:bg-gray-300 rounded-md py-1.5 gap-x-1 px-3 font-inter text-sm items-center">
+                                    <button onClick={() => {
+                                        copy(window.location.href)
+                                        toast.success('Berhasil, URL telah disalin')
+                                    }} className="flex bg-gray-100 hover:bg-gray-300 rounded-md py-1.5 gap-x-1 px-3 font-inter text-sm items-center">
                                         <span className="text-xl">
                                             <i className="ri-file-copy-line"></i>
                                         </span>
                                         <span className="text-gray-600 translate-y-[-2px] mt-1">Salin Link</span>
                                     </button>
-                                    <button className="flex bg-gray-100 hover:bg-green-500 hover:text-white text-gray-600 rounded-md py-1.5 gap-x-1 px-3 font-inter text-sm items-center">
+                                    <button type="button" onClick={() => {
+                                        window.open('https://api.whatsapp.com/send?&text=BANTU%20PALESTINA%20BANGKIT%0A' + window.location.href, '_blank');
+                                    }} className="flex bg-gray-100 hover:bg-green-500 hover:text-white text-gray-600 rounded-md py-1.5 gap-x-1 px-3 font-inter text-sm items-center">
                                         <span className="text-xl">
                                             <i className="ri-whatsapp-line"></i>
                                         </span>
