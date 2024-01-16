@@ -6,6 +6,9 @@ import CardComponent from "../../components/shared/CardComponent";
 import Api from "../../utils/Api";
 import { StringUtil } from "../../utils/StringUtil";
 import { SettingCompanyInterface } from "../../interfaces/SettingCompanyInterface";
+import { DonaturInterface } from "../../interfaces/DonaturInterface";
+import { BackendPaginationInterface } from "../../interfaces/BackendPaginationInterface";
+import axios from "axios";
 
 export default function HomeIndex() {
 
@@ -18,12 +21,78 @@ export default function HomeIndex() {
     const [amountDonation, setAmountDonation] = useState(0)
     const [amountDonatur, setAmountDonatur] = useState(0)
     const [settingCompany, setSettingCompany] = useState<SettingCompanyInterface | null>(null)
+    const [arrDonatur, setArrDonatur] = useState<Array<DonaturInterface>>([])
+    const [arrDonaturMessages, setArrDonaturMessages] = useState<Array<DonaturInterface>>([])
+    const [donaturPagination, setDonaturPagination] = useState<BackendPaginationInterface | null>(null)
+    const [donaturMessagePagination, setDonaturMessagePagination] = useState<BackendPaginationInterface | null>(null)
+    const [totalDonatur, setTotalDonatur] = useState<number>(0)
+    const [totalMessages, setTotalMessages] = useState<number>(0)
 
     const loadSettingCompany = () => {
         Api.get('/setting-company')
             .then((res) => {
                 setSettingCompany(res.data.data)
             })
+    }
+
+    const loadArrDonatur = (url?: string) => {
+        if (url) {
+            axios.get(url)
+                .then((res) => {
+                    let tempArrDonatur = [...arrDonatur]
+                    tempArrDonatur.push(...res.data.donatur.data)
+
+                    setArrDonatur(tempArrDonatur)
+                    setTotalDonatur(res.data.total_donaturs)
+                    setTotalMessages(res.data.total_messages)
+
+                    setDonaturPagination({
+                        next_page_url: res.data.donatur.next_page_url,
+                        prev_page_url: res.data.donatur.prev_page_url,
+                    })
+                })
+        } else {
+            Api.get('/recap-donation/donatur')
+                .then((res) => {
+                    setArrDonatur(res.data.donatur.data)
+                    setTotalDonatur(res.data.total_donaturs)
+                    setTotalMessages(res.data.total_messages)
+                    setDonaturPagination({
+                        next_page_url: res.data.donatur.next_page_url,
+                        prev_page_url: res.data.donatur.prev_page_url,
+                    })
+                })
+        }
+    }
+
+    const loadArrDonaturMessages = (url?: string) => {
+        if (url) {
+            axios.get(url)
+                .then((res) => {
+                    let tempArrDonaturMessages = [...arrDonaturMessages]
+                    tempArrDonaturMessages.push(...res.data.messages.data)
+
+                    setArrDonaturMessages(tempArrDonaturMessages)
+                    setTotalDonatur(res.data.total_donaturs)
+                    setTotalMessages(res.data.total_messages)
+
+                    setDonaturMessagePagination({
+                        next_page_url: res.data.messages.next_page_url,
+                        prev_page_url: res.data.messages.prev_page_url,
+                    })
+                })
+        } else {
+            Api.get('/recap-donation/donatur')
+                .then((res) => {
+                    setArrDonaturMessages(res.data.messages.data)
+                    setTotalDonatur(res.data.total_donaturs)
+                    setTotalMessages(res.data.total_messages)
+                    setDonaturMessagePagination({
+                        next_page_url: res.data.messages.next_page_url,
+                        prev_page_url: res.data.messages.prev_page_url,
+                    })
+                })
+        }
     }
 
     const toggleOpenedNews = (numParram: number) => {
@@ -57,6 +126,8 @@ export default function HomeIndex() {
     useEffect(() => {
         loadDonationCollected()
         loadSettingCompany()
+        loadArrDonatur()
+        loadArrDonaturMessages()
     }, [])
 
     useEffect(() => {
@@ -151,7 +222,7 @@ export default function HomeIndex() {
                     <TabList>
                         <Tab><span className={`px-2 py-3 font-inter text-sm text-blue-500 ${selectedTabs == 0 ? 'text-gray-500 font-semibold' : ''}`}>Keterangan</span></Tab>
                         <Tab><span className={`px-2 py-3 font-inter text-sm text-blue-500 ${selectedTabs == 1 ? 'text-gray-500 font-semibold' : ''}`}>Kabar Terbaru</span></Tab>
-                        <Tab><span className={`px-2 py-3 font-inter text-sm text-blue-500 ${selectedTabs == 2 ? 'text-gray-500 font-semibold' : ''}`}>Donatur</span></Tab>
+                        <Tab><span className={`px-2 py-3 font-inter text-sm text-blue-500 ${selectedTabs == 2 ? 'text-gray-500 font-semibold' : ''}`}>Donatur ({StringUtil.formatRupiah(totalDonatur)})</span></Tab>
                     </TabList>
 
                     <TabPanel>
@@ -211,39 +282,51 @@ export default function HomeIndex() {
                     </TabPanel>
                     <TabPanel>
                         <div className="flex flex-col gap-y-3 px-3 py-4">
-                            {[0, 1, 2, 3].map((i) => (
+                            {arrDonatur.map((donatur) => (
                                 <div className="font-inter bg-blue-50 rounded-md p-4">
                                     <div className="flex justify-between items-start">
-                                        <h4 className="text-sm font-semibold text-gray-700">Dermawan</h4>
-                                        <span className="text-xs text-gray-600">2 jam yang lalu</span>
+                                        <h4 className="text-sm font-semibold text-gray-700">{donatur.fullname}</h4>
+                                        <span className="text-xs text-gray-600">{donatur.created_at_for_humans}</span>
                                     </div>
-                                    <p className="text-sm text-gray-700 mt-1">Berdonasi sebesar <b className="text-gray-700">Rp 20.292</b></p>
+                                    <p className="text-sm text-gray-700 mt-1">Berdonasi sebesar <b className="text-gray-700">Rp {StringUtil.formatRupiah(donatur.amount)}</b></p>
                                 </div>
                             ))}
                         </div>
                         <div className="flex justify-center">
-                            <button className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-2 shadow-md">Load More</button>
+                            {
+                                donaturPagination?.next_page_url ?
+                                    <button type="button" onClick={() => {
+                                        loadArrDonatur(donaturPagination.next_page_url?.toString())
+                                    }} className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-2 shadow-md">Load More</button>
+                                    : <></>
+                            }
                         </div>
                     </TabPanel>
                 </Tabs>
             </CardComponent>
             <CardComponent>
-                <h2 className="font-inter font-semibold text-gray-700">Doa-doa orang baik (1028)</h2>
+                <h2 className="font-inter font-semibold text-gray-700">Doa & Pesan bagi Palestina ({StringUtil.formatRupiah(totalMessages)})</h2>
                 <div className="flex flex-col gap-y-3 bg-blue-50 p-5 rounded-md mt-5">
-                    {[0, 1, 2, 3].map((i) => (
+                    {arrDonaturMessages.map((donaturMessage) => (
                         <div className="font-inter bg-white border-[1px] border-gray-200 rounded-md p-4">
                             <div className="flex justify-between items-start">
-                                <h4 className="text-md font-semibold text-gray-700">Dermawan</h4>
-                                <span className="text-xs text-gray-600">2 jam yang lalu</span>
+                                <h4 className="text-md font-semibold text-gray-700">{donaturMessage.fullname}</h4>
+                                <span className="text-xs text-gray-600">{donaturMessage.created_at_for_humans}</span>
                             </div>
                             <p className="text-sm leading-relaxed text-gray-700 mt-3">
-                                nothing i wish more than the freedom of Palestine. nothing makes me more sad than hearing all the news about Palestine all of me gon be always in Palestine side
+                                {donaturMessage.message}
                             </p>
                         </div>
                     ))}
-                    <div className="flex justify-center">
-                        <button className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-2 shadow-md">Load More</button>
-                    </div>
+                    {
+                        donaturMessagePagination?.next_page_url ?
+                            <div className="flex justify-center">
+                                <button type="button" onClick={() => {
+                                    loadArrDonaturMessages(donaturMessagePagination.next_page_url?.toString())
+                                }} className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-2 shadow-md">Load More</button>
+                            </div> : <></>
+                    }
+
                 </div>
             </CardComponent>
             <div className={`fixed w-[525px] bottom-0 ${!showDonationComponentBottom ? 'hidden' : ''}`}>
