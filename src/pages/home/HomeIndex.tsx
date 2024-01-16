@@ -5,6 +5,7 @@ import 'react-tabs/style/react-tabs.css';
 import CardComponent from "../../components/shared/CardComponent";
 import Api from "../../utils/Api";
 import { StringUtil } from "../../utils/StringUtil";
+import { SettingCompanyInterface } from "../../interfaces/SettingCompanyInterface";
 
 export default function HomeIndex() {
 
@@ -16,6 +17,14 @@ export default function HomeIndex() {
     const [showDonationComponentBottom, setShowDonationComponentBottom] = useState(false)
     const [amountDonation, setAmountDonation] = useState(0)
     const [amountDonatur, setAmountDonatur] = useState(0)
+    const [settingCompany, setSettingCompany] = useState<SettingCompanyInterface | null>(null)
+
+    const loadSettingCompany = () => {
+        Api.get('/setting-company')
+            .then((res) => {
+                setSettingCompany(res.data.data)
+            })
+    }
 
     const toggleOpenedNews = (numParram: number) => {
         const copyArr = [...openedNews]
@@ -47,6 +56,7 @@ export default function HomeIndex() {
 
     useEffect(() => {
         loadDonationCollected()
+        loadSettingCompany()
     }, [])
 
     useEffect(() => {
@@ -126,9 +136,9 @@ export default function HomeIndex() {
             <CardComponent>
                 <h3 className="font-inter text-lg font-semibold text-gray-800">Penggalang Dana</h3>
                 <Link to={'/'} className="mt-4 flex items-center gap-x-6">
-                    <img className="w-16 rounded-full" src="https://donasipalestina.id/wp-content/uploads/2023/02/Profil-Merah-Biru-150x150.png" alt="" />
+                    <img className="w-16 rounded-full" src={settingCompany?.company_logo_url} alt="" />
                     <div>
-                        <h4 className="font-inter text-blue-400 text-lg">Kalasahan</h4>
+                        <h4 className="font-inter text-blue-400 text-lg">{settingCompany?.company_name}</h4>
                         <div className="flex items-center gap-x-2 mt-1">
                             <img className="w-10" src="https://donasipalestina.id/wp-content/plugins/donasiaja/assets/images/check-org2.png" alt="" />
                             <span className="font-inter italic text-gray-400 text-xs">Verified Organization</span>

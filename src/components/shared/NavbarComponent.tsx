@@ -1,13 +1,24 @@
 import { Link } from "react-router-dom";
 import CardComponent from "./CardComponent";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
+import { SettingCompanyInterface } from "../../interfaces/SettingCompanyInterface";
+import Api from "../../utils/Api";
 
 export default function NavbarComponent() {
     const { carts, reloadCarts } = useContext(CartContext)
+    const [settingCompany, setSettingCompany] = useState<SettingCompanyInterface | null>(null)
+
+    const loadSettingCompany = () => {
+        Api.get('/setting-company')
+            .then((res) => {
+                setSettingCompany(res.data.data)
+            })
+    }
 
     useEffect(() => {
         reloadCarts()
+        loadSettingCompany()
     }, [])
 
     return (
@@ -15,9 +26,9 @@ export default function NavbarComponent() {
             <CardComponent>
                 <div className="flex justify-between items-center">
                     <Link to={'/'} className="flex items-center gap-x-6">
-                        <img className="w-10 rounded-full" src="https://donasipalestina.id/wp-content/uploads/2023/02/Profil-Merah-Biru-150x150.png" alt="" />
+                        <img className="w-10 rounded-full" src={settingCompany?.company_logo_url} alt="" />
                         <div>
-                            <h4 className="font-inter text-blue-400 text-lg">Kalasahan</h4>
+                            <h4 className="font-inter text-blue-400 text-lg">{settingCompany?.company_name}</h4>
                             <div className="flex items-center gap-x-2 mt-1">
                                 <img className="w-10" src="https://donasipalestina.id/wp-content/plugins/donasiaja/assets/images/check-org2.png" alt="" />
                                 <span className="font-inter italic text-gray-400 text-xs">Verified Organization</span>
