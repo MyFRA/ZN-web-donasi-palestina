@@ -1,6 +1,7 @@
 export interface ProductInterface {
     id: number
     image: string
+    image_url: string
     name: string
     price: number
     created_at: string

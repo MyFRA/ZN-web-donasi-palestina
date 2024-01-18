@@ -9,6 +9,7 @@ import 'react-tabs/style/react-tabs.css';
 import { CartContext } from "../../context/CartContext";
 import { LoadingContext } from "../../context/LoadingContext";
 import { ProductInterface } from "../../interfaces/ProductInterface";
+import { useNavigate } from "react-router-dom";
 
 type AvailableDonationType = {
     description: string,
@@ -25,6 +26,12 @@ declare global {
 }
 
 export default function DonationIndex() {
+
+    /**
+     * Hooks
+     * 
+     */
+    const navigate = useNavigate()
 
     /**
      * Context
@@ -90,7 +97,11 @@ export default function DonationIndex() {
             message: message,
             custom_value: nominalLainnya
         }).then((res) => {
-            window.snap.pay(res.data.token);
+            window.snap.pay(res.data.token, {
+                onSuccess: function (result: any) {
+                    navigate('/success')
+                }
+            });
         }).catch((error) => {
             const err = error as AxiosError
             const errResponseMessage: any = err.response?.data
@@ -121,7 +132,7 @@ export default function DonationIndex() {
                         <div>
                             <div>
                                 <p className="font-inter text-gray-800 mb-5 text-center font-semibold mt-5">Donasi Paket Bantuan</p>
-                                <div className="grid grid-cols-3 gap-4">
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                     {
                                         availableDonations.map((availableDonation, i) => (
                                             <button key={i} onClick={() => {

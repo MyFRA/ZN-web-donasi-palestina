@@ -8,8 +8,15 @@ import { ReactSelectOptionInterface } from "../../interfaces/ReactSelectOptionIn
 import toast, { Toaster } from 'react-hot-toast';
 import { AxiosError } from "axios"
 import { LoadingContext } from "../../context/LoadingContext"
+import { useNavigate } from "react-router-dom"
 
 export default function CheckoutIndex() {
+
+    /**
+     * Hooks
+     * 
+     */
+    const navigate = useNavigate()
 
     /**
     * Contexts
@@ -126,7 +133,11 @@ export default function CheckoutIndex() {
         }).then((res) => {
             setLoadingContext(false)
 
-            window.snap.pay(res.data.token);
+            window.snap.pay(res.data.token, {
+                onSuccess: function (result: any) {
+                    navigate('/success')
+                }
+            });
         }).catch((error) => {
             setLoadingContext(false)
             const err = error as AxiosError
