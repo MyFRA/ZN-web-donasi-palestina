@@ -11,12 +11,16 @@ import { BackendPaginationInterface } from "../../interfaces/BackendPaginationIn
 import axios from "axios";
 import toast, { Toaster } from 'react-hot-toast';
 import copy from 'copy-to-clipboard';
+import { NewsInterface } from "../../interfaces/NewsInterface";
 
 export default function HomeIndex() {
 
+    /**
+     * Main State
+     * 
+     */
     const [selectedTabs, setSelectedTabs] = useState<number>(0)
     const [tab1Expand, setTab1Expand] = useState<boolean>(false)
-    const [openedNews, setOpenedNews] = useState<Array<number>>([])
     const [modalShareOpen, setModalShareOpen] = useState<boolean>(false)
     const [offsetY, setOffsetY] = useState<number>(0)
     const [showDonationComponentBottom, setShowDonationComponentBottom] = useState(false)
@@ -30,6 +34,9 @@ export default function HomeIndex() {
     const [totalDonatur, setTotalDonatur] = useState<number>(0)
     const [totalMessages, setTotalMessages] = useState<number>(0)
     const [settingWebDonation, setSettingWebDonation] = useState<SettingWebDonationInterface | null>(null)
+    const [news, setNews] = useState<Array<NewsInterface>>([])
+    const [newsPagination, setNewsPagination] = useState<BackendPaginationInterface | null>(null)
+    const [openedNewsIndex, setOpenedNewsIndex] = useState<Array<number>>([])
 
     const loadSettingCompany = () => {
         Api.get('/setting-company')
@@ -63,6 +70,31 @@ export default function HomeIndex() {
                     setDonaturPagination({
                         next_page_url: res.data.donatur.next_page_url,
                         prev_page_url: res.data.donatur.prev_page_url,
+                    })
+                })
+        }
+    }
+
+    const loadNews = (url?: string) => {
+        if (url) {
+            axios.get(url)
+                .then((res) => {
+                    let tempNews = [...news]
+                    tempNews.push(...res.data.data.data)
+
+                    setNews(tempNews)
+                    setNewsPagination({
+                        next_page_url: res.data.data.next_page_url,
+                        prev_page_url: res.data.data.prev_page_url,
+                    })
+                })
+        } else {
+            Api.get('/news')
+                .then((res) => {
+                    setNews(res.data.data.data)
+                    setDonaturPagination({
+                        next_page_url: res.data.data.next_page_url,
+                        prev_page_url: res.data.data.prev_page_url,
                     })
                 })
         }
@@ -109,6 +141,19 @@ export default function HomeIndex() {
         }
     }
 
+    const toggleOpenedNewsIndex = (indexParram: number) => {
+        const indexInOpenedNewsIndex = openedNewsIndex.findIndex((v) => v == indexParram);
+        const tempOpenedNewsIndex = [...openedNewsIndex]
+
+        if (indexInOpenedNewsIndex >= 0) {
+            tempOpenedNewsIndex.splice(indexInOpenedNewsIndex, 1)
+        } else {
+            tempOpenedNewsIndex.push(indexParram)
+        }
+
+        setOpenedNewsIndex(tempOpenedNewsIndex)
+    }
+
     const onScroll = () => setOffsetY(window.scrollY);
 
     const loadDonationCollected = () => {
@@ -139,6 +184,7 @@ export default function HomeIndex() {
         loadArrDonatur()
         loadArrDonaturMessages()
         loadSettingWebDonations()
+        loadNews()
     }, [])
 
     useEffect(() => {
@@ -260,7 +306,7 @@ export default function HomeIndex() {
                     </TabPanel>
                     <TabPanel>
                         <div className="flex flex-col gap-y-2 w-full">
-                            {[0].map((num: number) => (
+                            {news.map((newsItem, i) => (
                                 <div className="flex items-start justify-between h-full">
                                     <div className="flex-[1] flex flex-col items-start gap-y-2 relative self-stretch">
                                         <div>
@@ -270,20 +316,19 @@ export default function HomeIndex() {
                                     </div>
                                     <div className="flex-[7] pr-8">
                                         <div className="cursor-pointer font-inter">
-                                            <span className="text-xs text-gray-400">October, 27 2023</span>
+                                            <span className="text-xs text-gray-400">{newsItem.created_at_for_humans}</span>
                                             <div className="flex items-start justify-between mt-1 hover:underline" onClick={() => {
-                                                toggleOpenedNews(num)
+                                                toggleOpenedNewsIndex(i)
                                             }}>
-                                                <h3 className="text-sm font-semibold text-gray-800">PERANG BADAI AL-AQSA || Penyaluran Tahap 2</h3>
-                                                <span className="pl-6 text-lg text-gray-400" dangerouslySetInnerHTML={{ __html: openedNews.indexOf(0) >= 0 ? '&#129171' : '&#129170' }}></span>
+                                                <h3 className="text-sm font-semibold text-gray-800">{newsItem.title}</h3>
+                                                <span className="pl-6 text-lg text-gray-400" dangerouslySetInnerHTML={{ __html: openedNewsIndex.findIndex((v) => v == i) >= 0 ? '&#129171' : '&#129170' }}></span>
                                             </div>
                                         </div>
-                                        <div className={`font-inter transition duration-200 ease-in-out ${openedNews.indexOf(0) >= 0 ? 'h-full' : 'h-0 invisible'}`}>
-                                            <h4 className="text-sm font-semibold text-gray-700 mb-2">Gaza, 10 & 11 Oktober 2023</h4>
-                                            <p className="text-sm text-gray-600 mb-2">Alhamdulillah, Aman Palestin sudah mengirimkan bantuan untuk kondisi genting yang tengah dialami di Gaza. Bantuan sebesar $ 100.000 (Rp 1.500.000.000) sudah dikirim ke kantor perwakilan kami di Gaza dan akan di salurkan untuk para korban serangan dan agresi zionis secara bertahap.</p>
-                                            <img className="w-full mb-4 rounded-md" src="https://donasipalestina.id/wp-content/uploads/2023/10/photo_2023-10-25_22-13-13.jpg" alt="" />
-                                            <p className="text-sm text-gray-600 mb-2">Jazakumullah Khayran Katsiiran pada dermawan yang senantiasa berdiri tegak di barisan pembebas Palestina!
-                                                Semoga menjadi Allah menerima sebagai amal ibadah dan Allah berikan balasan berlipat, Aamiin ya Rabbal'alamiin</p>
+                                        <div className={`font-inter transition duration-200 ease-in-out ${openedNewsIndex.findIndex((v) => v == i) >= 0 ? 'h-full' : 'h-0 invisible'}`}>
+                                            <h4 className="text-sm font-semibold text-gray-700 mb-2">{newsItem.subtitle}</h4>
+                                            <div className="mb-2 text-sm text-gray-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: newsItem.content }}>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
