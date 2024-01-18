@@ -11,9 +11,9 @@ export default function AppLayout() {
     return (
         <div className="bg-[#EDF0F5] min-h-screen py-4">
             <LoadingComponent loading={loading} />
-            <div className="mx-auto w-[525px]">
+            <div className="mx-auto md:w-[525px]">
                 <NavbarComponent />
-                <div className="pt-28">
+                <div className="pt-28 px-2 lg:px-0">
                     <Outlet />
                 </div>
             </div>

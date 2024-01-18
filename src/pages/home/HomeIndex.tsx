@@ -281,9 +281,9 @@ export default function HomeIndex() {
             <CardComponent>
                 <Tabs onSelect={(index) => setSelectedTabs(index)}>
                     <TabList>
-                        <Tab><span className={`px-2 py-3 font-inter text-sm text-blue-500 ${selectedTabs == 0 ? 'text-gray-500 font-semibold' : ''}`}>Keterangan</span></Tab>
-                        <Tab><span className={`px-2 py-3 font-inter text-sm text-blue-500 ${selectedTabs == 1 ? 'text-gray-500 font-semibold' : ''}`}>Kabar Terbaru</span></Tab>
-                        <Tab><span className={`px-2 py-3 font-inter text-sm text-blue-500 ${selectedTabs == 2 ? 'text-gray-500 font-semibold' : ''}`}>Donatur ({StringUtil.formatRupiah(totalDonatur)})</span></Tab>
+                        <Tab><span className={`px-2 py-3 font-inter text-xs md:text-sm text-blue-500 ${selectedTabs == 0 ? 'text-gray-500 font-semibold' : ''}`}>Keterangan</span></Tab>
+                        <Tab><span className={`px-2 py-3 font-inter text-xs md:text-sm text-blue-500 ${selectedTabs == 1 ? 'text-gray-500 font-semibold' : ''}`}>Kabar Terbaru</span></Tab>
+                        <Tab><span className={`px-2 py-3 font-inter text-xs md:text-sm text-blue-500 ${selectedTabs == 2 ? 'text-gray-500 font-semibold' : ''}`}>Donatur ({StringUtil.formatRupiah(totalDonatur)})</span></Tab>
                     </TabList>
 
                     <TabPanel>
@@ -390,7 +390,7 @@ export default function HomeIndex() {
 
                 </div>
             </CardComponent>
-            <div className={`fixed w-[525px] bottom-0 ${!showDonationComponentBottom ? 'hidden' : ''}`}>
+            <div className={`fixed left-2 right-2 md:w-[525px] bottom-0 ${!showDonationComponentBottom ? 'hidden' : ''}`}>
                 <CardComponent>
                     <div className="flex items-center gap-x-2">
                         <button type="button" onClick={() => {

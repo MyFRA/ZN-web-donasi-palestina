@@ -22,7 +22,7 @@ export default function NavbarComponent() {
     }, [])
 
     return (
-        <div className="fixed w-[525px] top-5 z-20">
+        <div className="fixed md:w-[525px] left-2 right-2 top-5 z-20">
             <CardComponent>
                 <div className="flex justify-between items-center">
                     <Link to={'/'} className="flex items-center gap-x-6">
