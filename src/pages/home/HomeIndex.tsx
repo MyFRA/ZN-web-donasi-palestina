@@ -29,6 +29,7 @@ export default function HomeIndex() {
     const [donaturMessagePagination, setDonaturMessagePagination] = useState<BackendPaginationInterface | null>(null)
     const [totalDonatur, setTotalDonatur] = useState<number>(0)
     const [totalMessages, setTotalMessages] = useState<number>(0)
+    const [settingWebDonation, setSettingWebDonation] = useState<SettingWebDonationInterface | null>(null)
 
     const loadSettingCompany = () => {
         Api.get('/setting-company')
@@ -118,6 +119,13 @@ export default function HomeIndex() {
             })
     }
 
+    const loadSettingWebDonations = () => {
+        Api.get('/web-donations')
+            .then((res) => {
+                setSettingWebDonation(res.data.data)
+            })
+    }
+
     useEffect(() => {
         window.removeEventListener('scroll', onScroll);
         window.addEventListener('scroll', onScroll, { passive: true });
@@ -130,6 +138,7 @@ export default function HomeIndex() {
         loadSettingCompany()
         loadArrDonatur()
         loadArrDonaturMessages()
+        loadSettingWebDonations()
     }, [])
 
     useEffect(() => {
@@ -185,9 +194,9 @@ export default function HomeIndex() {
             </main>
             {/* End of Modal Share */}
 
-            <img src="https://donasipalestina.id/wp-content/uploads/2021/05/Banner-Bantu-Gaza-Kembali-Bangkit-11.jpg" className="w-full rounded-t-md" alt="" />
+            <img src={settingWebDonation?.thumbnail} className="w-full rounded-t-md" alt="" />
             <div className="p-5 bg-white rounded-b-md shadow-lg">
-                <h1 className="font-inter text-gray-800 text-xl font-semibold">BANTU PALESTINA BANGKIT</h1>
+                <h1 className="font-inter text-gray-800 text-xl font-semibold">{settingWebDonation?.title}</h1>
                 <span className="flex items-center mt-3 gap-x-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-300 icon icon-tabler icon-tabler-map-pin" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" /></svg>
                     <span className="text-gray-400 text-xs font-inter">Gaza, Palestina</span>
@@ -236,17 +245,9 @@ export default function HomeIndex() {
 
                     <TabPanel>
                         <div className="font-inter">
-                            <h2 className="font-semibold text-gray-700 mt-4 mb-4">75 Tahun Hidup Di Bawah Penjajahan, Palestina Semakin Dekat dengan Kemenangan</h2>
                             <div className="font-inter text-sm text-gray-700">
-                                <div className={`${tab1Expand ? '' : 'max-h-16 overflow-hidden'}`}>
-                                    <p className="mb-3">Seolah ditutup dari fakta yang ada, kekejaman yang dialami oleh saudara-saudara kita di Palestina jauh lebih parah dari yang terpampang di media.</p>
-                                    <p className="mb-3">Rumah, bangunan dan tempat ibadah di hancurkan, anak-anak sekolah diserang, bahkan Masjid Al Aqsa, masjid suci umat muslim pun turut serta dinodai!</p>
-                                    <img className="mb-4 rounded-md" src="https://donasipalestina.id/wp-content/uploads/2022/02/photo_2022-02-16_11-51-13.jpg" alt="" />
-                                    <p className="mb-3">Tidak hanya fisik bangunan saja, namun juga manusia di dalamnya. Berbeda dengan bangunan yang dapat disusun ulang kembali, <b>mereka yang terluka dan kehilangan bagian tubuhnya hanya dapat berharap beradaptasi dengan cepat</b> sehingga dapat melanjutkan kehidupannya lebih baik.</p>
-                                    <p className="mb-3">Perang antara Palestina dan Israel terjadi sejak hari Sabtu (07/10). Hingga hari senin setidaknya lebih dari 400 korban meninggal dan 2000 orang luka-luka.</p>
-                                    <img className="mb-4 rounded-md" src="https://donasipalestina.id/wp-content/uploads/2021/05/photo_2021-05-22_19-36-58.jpg" alt="" />
-                                    <p className="mb-3">Aman Palestin berkomitmen untuk membantu Gaza kembali bangkit melalui program-program seperti sewa rumah sementara untuk keluarga yang terdampak, perabotan, renovasi, alat kebersihan, bahan pangan, makanan hangat, pakaian, selimut hingga bantuan medis.</p>
-                                    <p className="mb-3">Sobat Palestina sekalian, mari langitkan doa serta tunjukan kepedulian kita untuk sesama saudara nun jauh di sana dengan bersedekah. Semoga Allah karuniakan kemenangan dan ganjaran besar untuk kita sekalian dengan wasilah membantu negeri yang penuh berkah, <b>Palestina!</b></p>
+                                <div className={`${tab1Expand ? '' : 'max-h-16 overflow-hidden'}`} dangerouslySetInnerHTML={{ __html: settingWebDonation ? settingWebDonation.description : '' }}>
+
                                 </div>
                                 <button onClick={() => {
                                     setTab1Expand(!tab1Expand)

@@ -47,6 +47,7 @@ export default function DonationIndex() {
     const [email, setEmail] = useState<string>('')
     const [message, setMessage] = useState<string>('')
     const [products, setProducts] = useState<Array<ProductInterface>>([])
+    const [settingWebDonation, setSettingWebDonation] = useState<SettingWebDonationInterface | null>(null)
 
     const handleChangeHideName = () => {
         setCheckedHideName(!checkedHideName)
@@ -66,9 +67,17 @@ export default function DonationIndex() {
             })
     }
 
+    const loadSettingWebDonations = () => {
+        Api.get('/web-donations')
+            .then((res) => {
+                setSettingWebDonation(res.data.data)
+            })
+    }
+
     useEffect(() => {
         loadAvailableDonations()
         loadProducts()
+        loadSettingWebDonations()
     }, [])
 
     const doDonate = () => {
@@ -95,10 +104,10 @@ export default function DonationIndex() {
             <Toaster />
             <CardComponent>
                 <div className="flex items-start gap-x-6">
-                    <img src="https://donasipalestina.id/wp-content/uploads/2021/05/Banner-Bantu-Gaza-Kembali-Bangkit-11.jpg" alt="" className="w-4/12 rounded-md shadow-md" />
+                    <img src={settingWebDonation?.thumbnail} alt="" className="w-4/12 rounded-md shadow-md" />
                     <div>
                         <span className="font-inter text-gray-400 text-xs">Anda akan berdonasi dalam program:</span>
-                        <h2 className="font-inter text-gray-800 mt-1 text-sm font-semibold">BANTU PALESTINA BANGKIT</h2>
+                        <h2 className="font-inter text-gray-800 mt-1 text-sm font-semibold">{settingWebDonation?.title}</h2>
                     </div>
                 </div>
                 <hr className="mt-6 mb-4" />
@@ -205,7 +214,7 @@ export default function DonationIndex() {
                                             <div className="font-inter p-2.5">
                                                 <h4 className="text-gray-700 text-sm">{product.name}</h4>
                                                 <h3 className="text-sm font-semibold text-gray-700 mt-0.5">Rp{product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}</h3>
-                                                <span className="block text-xs text-gray-500 mt-3">{product.sales} terjual</span>
+                                                {/* <span className="block text-xs text-gray-500 mt-3">{product.sales} terjual</span> */}
 
                                                 <button type="button" onClick={() => {
                                                     setLoadingContext(true)
