@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -14,6 +14,12 @@ import copy from 'copy-to-clipboard';
 import { NewsInterface } from "../../interfaces/NewsInterface";
 
 export default function HomeIndex() {
+
+    /**
+     * Hooks
+     * 
+     */
+    const btnDonationRef = useRef<HTMLAnchorElement | null>(null)
 
     /**
      * Main State
@@ -92,7 +98,7 @@ export default function HomeIndex() {
             Api.get('/news')
                 .then((res) => {
                     setNews(res.data.data.data)
-                    setDonaturPagination({
+                    setNewsPagination({
                         next_page_url: res.data.data.next_page_url,
                         prev_page_url: res.data.data.prev_page_url,
                     })
@@ -127,17 +133,6 @@ export default function HomeIndex() {
                         prev_page_url: res.data.messages.prev_page_url,
                     })
                 })
-        }
-    }
-
-    const toggleOpenedNews = (numParram: number) => {
-        const copyArr = [...openedNews]
-
-        if (openedNews.indexOf(numParram) >= 0) {
-            setOpenedNews(copyArr.filter((num) => num != numParram))
-        } else {
-            copyArr.push(numParram)
-            setOpenedNews(copyArr)
         }
     }
 
@@ -188,10 +183,12 @@ export default function HomeIndex() {
     }, [])
 
     useEffect(() => {
-        if (offsetY >= 528) {
-            setShowDonationComponentBottom(true)
-        } else {
-            setShowDonationComponentBottom(false)
+        if (btnDonationRef.current) {
+            if (offsetY >= btnDonationRef.current.offsetTop - 100) {
+                setShowDonationComponentBottom(true)
+            } else {
+                setShowDonationComponentBottom(false)
+            }
         }
     }, [scrollY])
 
@@ -264,7 +261,7 @@ export default function HomeIndex() {
                     </div>
                 </div>
                 <div className="mt-6">
-                    <Link to={'/donate'} className="block bg-blue-600 shadow-md w-full rounded-md text-center text-white font-inter font-semibold py-2">Donasi Sekarang!</Link>
+                    <Link to={'/donate'} className="block bg-blue-600 shadow-md w-full rounded-md text-center text-white font-inter font-semibold py-2" ref={btnDonationRef}>Donasi Sekarang!</Link>
                 </div>
             </div>
             <br />
@@ -290,9 +287,9 @@ export default function HomeIndex() {
                     </TabList>
 
                     <TabPanel>
-                        <div className="font-inter">
+                        <div className="font-inter mt-4">
                             <div className="font-inter text-sm text-gray-700">
-                                <div className={`${tab1Expand ? '' : 'max-h-16 overflow-hidden'}`} dangerouslySetInnerHTML={{ __html: settingWebDonation ? settingWebDonation.description : '' }}>
+                                <div className={`${tab1Expand ? '' : 'max-h-20 overflow-hidden'}`} dangerouslySetInnerHTML={{ __html: settingWebDonation ? settingWebDonation.description : '' }}>
 
                                 </div>
                                 <button onClick={() => {
@@ -325,7 +322,7 @@ export default function HomeIndex() {
                                             </div>
                                         </div>
                                         <div className={`font-inter transition duration-200 ease-in-out ${openedNewsIndex.findIndex((v) => v == i) >= 0 ? 'h-full' : 'h-0 invisible'}`}>
-                                            <h4 className="text-sm font-semibold text-gray-700 mb-2">{newsItem.subtitle}</h4>
+                                            <h4 className="text-sm mt-3 text-gray-800 italic mb-2">{newsItem.subtitle}</h4>
                                             <div className="mb-2 text-sm text-gray-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: newsItem.content }}>
 
                                             </div>
@@ -333,6 +330,15 @@ export default function HomeIndex() {
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                        <div className="flex justify-center">
+                            {
+                                newsPagination?.next_page_url ?
+                                    <button type="button" onClick={() => {
+                                        loadNews(newsPagination.next_page_url?.toString())
+                                    }} className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-5 shadow-md">Load More</button>
+                                    : <></>
+                            }
                         </div>
                     </TabPanel>
                     <TabPanel>
