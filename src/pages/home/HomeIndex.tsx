@@ -201,10 +201,11 @@ export default function HomeIndex() {
             <main className={`antialiased bg-[rgba(0, 0, 0, 0.4)] text-gray-900 font-sans overflow-x-hidden fixed w-full top-0 z-50 ${modalShareOpen ? '' : 'hidden'}`}>
                 <div className="relative px-4 min-h-screen md:flex md:items-center md:justify-center flex justify-center">
                     <div className="bg-black opacity-25 w-full h-full fixed z-10 inset-0"></div>
-                    <div className="bg-white rounded-lg w-3/12 p-5 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 top-[50%] left-[49%] -translate-x-2/4 -translate-y-1/2 h-fit">
+                    <div className="bg-white rounded-lg md:w-[525px] p-5 fixed inset-x-0 bottom-0 z-50 top-[50%] left-2 md:left-[50%] right-2 md:-translate-x-2/4 -translate-y-1/2 h-fit">
                         <div className="md:flex items-center">
                             <div className="mt-4 md:mt-0 text-center md:text-left">
                                 <p className="font-bold">Share</p>
+                                <br />
                                 <div className="flex items-center gap-x-2 mt-1">
                                     <button onClick={() => {
                                         copy(window.location.href)
@@ -390,7 +391,7 @@ export default function HomeIndex() {
 
                 </div>
             </CardComponent>
-            <div className={`fixed left-2 right-2 md:w-[525px] bottom-0 ${!showDonationComponentBottom ? 'hidden' : ''}`}>
+            <div className={`fixed left-2 right-2 md:left-[unset] md:right-[unset] md:w-[525px] bottom-0 ${!showDonationComponentBottom ? 'hidden' : ''}`}>
                 <CardComponent>
                     <div className="flex items-center gap-x-2">
                         <button type="button" onClick={() => {
