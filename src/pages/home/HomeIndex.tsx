@@ -391,7 +391,7 @@ export default function HomeIndex() {
 
                 </div>
             </CardComponent>
-            <div className={`fixed left-2 right-2 md:left-[unset] md:right-[unset] md:w-[525px] bottom-0 ${!showDonationComponentBottom ? 'hidden' : ''}`}>
+            <div className={`fixed left-2 right-2 md:left-[unset] md:right-[unset] md:w-[525px] -bottom-2 ${!showDonationComponentBottom ? 'hidden' : ''}`}>
                 <CardComponent>
                     <div className="flex items-center gap-x-2">
                         <button type="button" onClick={() => {
