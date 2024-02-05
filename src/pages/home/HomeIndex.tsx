@@ -13,6 +13,8 @@ import toast, { Toaster } from "react-hot-toast";
 import copy from "copy-to-clipboard";
 import { NewsInterface } from "../../interfaces/NewsInterface";
 import ContentLoader from "react-content-loader";
+import "@splidejs/react-splide/css";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 export default function HomeIndex() {
     /**
@@ -241,14 +243,22 @@ export default function HomeIndex() {
             </main>
             {/* End of Modal Share */}
 
-            {settingWebDonation?.thumbnail ? (
-                <img src={settingWebDonation?.thumbnail} className="w-full rounded-t-md" alt="" />
+            {settingWebDonation?.thumbnails ? (
+                <Splide options={{ rewind: true, type: "loop", autoplay: true }} aria-label="React Splide Example">
+                    <SplideSlide>
+                        <img src="http://localhost:8000/storage/setting-web-donation-has-thumbnails/thumbnail/thumbnail-XBLI-50476.jpg" style={{ height: "100%", objectFit: "cover", objectPosition: "center", width: "100%" }} className="rounded-t-md h-[200px]" />
+                    </SplideSlide>
+                    <SplideSlide>
+                        <img src="http://localhost:8000/storage/setting-web-donation-has-thumbnails/thumbnail/thumbnail-XULY-92565.png" style={{ height: "100%", objectFit: "cover", objectPosition: "center", width: "100%" }} className="rounded-t-md h-[200px]" />
+                    </SplideSlide>
+                </Splide>
             ) : (
                 <ContentLoader viewBox="0 0 380 150">
                     {/* Only SVG shapes */}
                     <rect x="0" y="0" rx="5" ry="5" width="100%" height="150" />
                 </ContentLoader>
             )}
+
             <div className="p-5 bg-white rounded-b-md shadow-lg">
                 <h1 className="font-inter text-gray-800 text-xl font-semibold">{settingWebDonation?.title}</h1>
                 <span className="flex items-center mt-3 gap-x-1.5">
