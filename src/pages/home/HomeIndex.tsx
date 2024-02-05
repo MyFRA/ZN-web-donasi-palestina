@@ -14,6 +14,7 @@ import copy from "copy-to-clipboard";
 import { NewsInterface } from "../../interfaces/NewsInterface";
 import ContentLoader from "react-content-loader";
 import "@splidejs/react-splide/css";
+// @ts-ignore
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 export default function HomeIndex() {
@@ -245,12 +246,11 @@ export default function HomeIndex() {
 
             {settingWebDonation?.thumbnails ? (
                 <Splide options={{ rewind: true, type: "loop", autoplay: true }} aria-label="React Splide Example">
-                    <SplideSlide>
-                        <img src="http://localhost:8000/storage/setting-web-donation-has-thumbnails/thumbnail/thumbnail-XBLI-50476.jpg" style={{ height: "100%", objectFit: "cover", objectPosition: "center", width: "100%" }} className="rounded-t-md h-[200px]" />
-                    </SplideSlide>
-                    <SplideSlide>
-                        <img src="http://localhost:8000/storage/setting-web-donation-has-thumbnails/thumbnail/thumbnail-XULY-92565.png" style={{ height: "100%", objectFit: "cover", objectPosition: "center", width: "100%" }} className="rounded-t-md h-[200px]" />
-                    </SplideSlide>
+                    {settingWebDonation.thumbnails.map((thumbnail) => (
+                        <SplideSlide>
+                            <img src={thumbnail.thumbnail} style={{ objectFit: "cover", objectPosition: "center", width: "100%" }} className="rounded-t-md h-[200px] lg:h-[275px]" />
+                        </SplideSlide>
+                    ))}
                 </Splide>
             ) : (
                 <ContentLoader viewBox="0 0 380 150">

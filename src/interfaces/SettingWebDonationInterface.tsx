@@ -1,8 +1,12 @@
+interface Thumbnail {
+    thumbnail: string;
+}
+
 interface SettingWebDonationInterface {
-    id: number
-    title: string
-    thumbnail: string
-    description: string
-    created_at: string
-    updated_at: string
+    id: number;
+    title: string;
+    thumbnails: Array<Thumbnail>;
+    description: string;
+    created_at: string;
+    updated_at: string;
 }

@@ -114,8 +114,8 @@ export default function DonationIndex() {
             <Toaster />
             <CardComponent>
                 <div className="flex items-start gap-x-6">
-                    {settingWebDonation?.thumbnail ? (
-                        <img src={settingWebDonation?.thumbnail} alt="" className="w-4/12 rounded-md shadow-md" />
+                    {settingWebDonation?.thumbnails ? (
+                        <>{settingWebDonation.thumbnails.length > 0 ? <img src={settingWebDonation?.thumbnails[0].thumbnail} alt="" className="w-4/12 rounded-md shadow-md" /> : <></>}</>
                     ) : (
                         <ContentLoader viewBox="0 0 200 70">
                             <rect x="0" y="0" rx="4" ry="4" width="100" height="50" />
