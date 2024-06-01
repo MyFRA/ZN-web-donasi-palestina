@@ -14,7 +14,7 @@ import copy from "copy-to-clipboard";
 import { NewsInterface } from "../../interfaces/NewsInterface";
 import ContentLoader from "react-content-loader";
 import "@splidejs/react-splide/css";
-// @ts-ignore
+// @ts-expect-error: JS Package
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 export default function HomeIndex() {
@@ -56,7 +56,7 @@ export default function HomeIndex() {
     const loadArrDonatur = (url?: string) => {
         if (url) {
             axios.get(url).then((res) => {
-                let tempArrDonatur = [...arrDonatur];
+                const tempArrDonatur = [...arrDonatur];
                 tempArrDonatur.push(...res.data.donatur.data);
 
                 setArrDonatur(tempArrDonatur);
@@ -84,7 +84,7 @@ export default function HomeIndex() {
     const loadNews = (url?: string) => {
         if (url) {
             axios.get(url).then((res) => {
-                let tempNews = [...news];
+                const tempNews = [...news];
                 tempNews.push(...res.data.data.data);
 
                 setNews(tempNews);
@@ -107,7 +107,7 @@ export default function HomeIndex() {
     const loadArrDonaturMessages = (url?: string) => {
         if (url) {
             axios.get(url).then((res) => {
-                let tempArrDonaturMessages = [...arrDonaturMessages];
+                const tempArrDonaturMessages = [...arrDonaturMessages];
                 tempArrDonaturMessages.push(...res.data.messages.data);
 
                 setArrDonaturMessages(tempArrDonaturMessages);
@@ -188,7 +188,7 @@ export default function HomeIndex() {
 
     return (
         <div>
-            <Toaster />
+            <Toaster toastOptions={{ position: "top-center" }} containerStyle={{ top: "50%" }} />
 
             {/* Modal Share */}
             <main className={`antialiased bg-[rgba(0, 0, 0, 0.4)] text-gray-900 font-sans overflow-x-hidden fixed w-full top-0 z-50 ${modalShareOpen ? "" : "hidden"}`}>
@@ -259,7 +259,7 @@ export default function HomeIndex() {
                 </ContentLoader>
             )}
 
-            <div className="p-5 bg-white rounded-b-md shadow-lg">
+            <div className="p-5 bg-white rounded-b-md-lg">
                 <h1 className="font-inter text-gray-800 text-xl font-semibold">{settingWebDonation?.title}</h1>
                 <span className="flex items-center mt-3 gap-x-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-300 icon icon-tabler icon-tabler-map-pin" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -286,15 +286,15 @@ export default function HomeIndex() {
                     </div>
                 </div>
                 <div className="mt-6">
-                    <Link to={"/donate"} className="block bg-blue-600 shadow-md w-full rounded-md text-center text-white font-inter font-semibold py-2" ref={btnDonationRef}>
+                    <Link to={"/donate"} className="block bg-blue-500 w-full rounded-md text-center text-white font-inter font-semibold py-2" ref={btnDonationRef}>
                         Donasi Sekarang!
                     </Link>
                 </div>
             </div>
-            <br />
+            <hr />
             <CardComponent>
                 <h3 className="font-inter text-lg font-semibold text-gray-800">Penggalang Dana</h3>
-                <a href="https://kalasahan.space/wp/" target="_blank" className="mt-4 flex items-center gap-x-6">
+                <a href="https://kalasahan.space/wp/" target="_blank" className="text-blue-500 mt-4 flex items-center gap-x-6">
                     {settingCompany?.company_logo_url ? (
                         <img className="w-16 rounded-full" src={settingCompany?.company_logo_url} alt="" />
                     ) : (
@@ -303,7 +303,7 @@ export default function HomeIndex() {
                         </ContentLoader>
                     )}
                     <div>
-                        <h4 className="font-inter text-blue-400 text-lg">{settingCompany?.company_name}</h4>
+                        <h4 className="font-inter text-blue-500 text-lg">{settingCompany?.company_name}</h4>
                         <div className="flex items-center gap-x-2 mt-1">
                             <img className="w-10" src="https://donasipalestina.id/wp-content/plugins/donasiaja/assets/images/check-org2.png" alt="" />
                             <span className="font-inter italic text-gray-400 text-xs">Verified Organization</span>
@@ -311,6 +311,7 @@ export default function HomeIndex() {
                     </div>
                 </a>
             </CardComponent>
+            <hr />
             <CardComponent>
                 <Tabs onSelect={(index) => setSelectedTabs(index)}>
                     <TabList>
@@ -338,7 +339,7 @@ export default function HomeIndex() {
                                     onClick={() => {
                                         setTab1Expand(!tab1Expand);
                                     }}
-                                    className="bg-blue-50 mt-4 text-blue-600 py-2 hover:bg-blue-100 rounded-md text-center font-inter text-xs w-full flex items-center justify-center gap-x-1"
+                                    className="bg-blue-50 mt-4 text-blue-500 py-2 hover:bg-blue-100 rounded-md text-center font-inter text-xs w-full flex items-center justify-center gap-x-1"
                                 >
                                     {tab1Expand ? "Baca dengan ringkas " : "Baca Selengkapnya "}
                                     <span
@@ -357,7 +358,7 @@ export default function HomeIndex() {
                                 <div className="flex items-start justify-between h-full">
                                     <div className="flex-[1] flex flex-col items-start gap-y-2 relative self-stretch">
                                         <div>
-                                            <div className="bg-blue-500 border-4 border-white shadow w-[17px] h-[17px] rounded-full"></div>
+                                            <div className="bg-blue-500 border-4 border-white w-[17px] h-[17px] rounded-full"></div>
                                         </div>
                                         <div className="w-0.5 bg-gray-200 h-full translate-x-[6px]"></div>
                                     </div>
@@ -394,7 +395,7 @@ export default function HomeIndex() {
                                     onClick={() => {
                                         loadNews(newsPagination.next_page_url?.toString());
                                     }}
-                                    className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-5 shadow-md"
+                                    className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-5"
                                 >
                                     Load More
                                 </button>
@@ -424,7 +425,7 @@ export default function HomeIndex() {
                                     onClick={() => {
                                         loadArrDonatur(donaturPagination.next_page_url?.toString());
                                     }}
-                                    className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-2 shadow-md"
+                                    className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-2"
                                 >
                                     Load More
                                 </button>
@@ -435,6 +436,7 @@ export default function HomeIndex() {
                     </TabPanel>
                 </Tabs>
             </CardComponent>
+            <hr />
             <CardComponent>
                 <h2 className="font-inter font-semibold text-gray-700">Doa & Pesan bagi Palestina ({StringUtil.formatRupiah(totalMessages)})</h2>
                 <div className="flex flex-col gap-y-3 bg-blue-50 p-5 rounded-md mt-5">
@@ -454,7 +456,7 @@ export default function HomeIndex() {
                                 onClick={() => {
                                     loadArrDonaturMessages(donaturMessagePagination.next_page_url?.toString());
                                 }}
-                                className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-2 shadow-md"
+                                className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-2"
                             >
                                 Load More
                             </button>
@@ -464,7 +466,9 @@ export default function HomeIndex() {
                     )}
                 </div>
             </CardComponent>
+
             <div className={`fixed left-2 right-2 md:left-[unset] md:right-[unset] md:w-[525px] -bottom-2 ${!showDonationComponentBottom ? "hidden" : ""}`}>
+                <hr />
                 <CardComponent>
                     <div className="flex items-center gap-x-2">
                         <button
@@ -472,24 +476,23 @@ export default function HomeIndex() {
                             onClick={() => {
                                 setModalShareOpen(true);
                             }}
-                            className="flex-[2.9] flex items-center justify-center gap-x-2 border-[3px] border-blue-600 py-1 rounded-md"
+                            className="flex-[2.9] flex items-center justify-center gap-x-2 border-[3px] border-blue-500 py-1 rounded-md"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-share-3 text-blue-600" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-share-3 text-blue-500" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M13 4v4c-6.575 1.028 -9.02 6.788 -10 12c-.037 .206 5.384 -5.962 10 -6v4l8 -7l-8 -7z" />
                             </svg>
-                            <div className="font-inter flex flex-col text-blue-600 items-start">
+                            <div className="font-inter flex flex-col text-blue-500 items-start">
                                 <b className="text-sm font-semibold">Share</b>
                                 <span className="text-[10px]">Bagikan</span>
                             </div>
                         </button>
-                        <Link to={"/donate"} className="flex items-center justify-center flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-blue-600 text-base">
+                        <Link to={"/donate"} className="flex items-center justify-center flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-blue-500 text-base">
                             Donasi Sekarang
                         </Link>
                     </div>
                 </CardComponent>
             </div>
-            <br />
             <br />
             <br />
             <br />

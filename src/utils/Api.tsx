@@ -1,9 +1,9 @@
-import axios from 'axios'
+import axios from "axios";
 
-const baseURL = 'http://localhost:8000/api'
+const baseURL = "https://api.indonesiaforpalestine.com/api";
 
 const Api = axios.create({
-    baseURL: baseURL
-})
+    baseURL: baseURL,
+});
 
 export default Api;
