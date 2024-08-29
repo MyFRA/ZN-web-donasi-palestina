@@ -159,7 +159,7 @@ export default function DonationIndex() {
                                             style={{ boxShadow: "0 4px 25px 0 rgba(0,0,0,.1)" }}
                                         >
                                             <h4 className={`font-inter ${selectedDonation?.value == availableDonation.value ? "text-blue-500 font-semibold" : "text-gray-700"}`}>{availableDonation.title}</h4>
-                                            <span className="text-xs font-inter mt-1 text-gray-500 text-center">{""}</span>
+                                            <span className="text-xs font-inter mt-1 text-gray-500 text-center">{availableDonation.short_description}</span>
                                         </button>
                                     ))}
                                 </div>
