@@ -294,7 +294,7 @@ export default function HomeIndex() {
             <hr />
             <CardComponent>
                 <h3 className="font-inter text-lg font-semibold text-gray-800">Penggalang Dana</h3>
-                <a href="https://kalasahan.space/wp/" target="_blank" className="text-blue-500 mt-4 flex items-center gap-x-6">
+                <a href="#" className="text-blue-500 mt-4 flex items-center gap-x-6">
                     {settingCompany?.company_logo_url ? (
                         <img className="w-16 rounded-full" src={settingCompany?.company_logo_url} alt="" />
                     ) : (
