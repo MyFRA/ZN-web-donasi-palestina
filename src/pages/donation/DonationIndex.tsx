@@ -137,7 +137,7 @@ export default function DonationIndex() {
                 <Tabs onSelect={(index) => setSelectedTabs(index)}>
                     <TabList className={"flex justify-between border-b-[1px] border-gray-400"}>
                         <Tab>
-                            <span className={`px-2 py-1 block font-inter text-sm text-blue-500 ${selectedTabs == 0 ? "text-gray-500 font-semibold" : ""}`}>Donasi Paket Bantuan</span>
+                            <span className={`px-2 py-1 block font-inter text-sm text-blue-500 ${selectedTabs == 0 ? "text-gray-500 font-semibold" : ""}`}>Nominal Donasi</span>
                         </Tab>
                         {/* <Tab>
                             <span className={`px-2 py-1 block font-inter text-sm text-blue-500 ${selectedTabs == 1 ? "text-gray-500 font-semibold" : ""}`}>Donasi Dengan Membeli Produk</span>
@@ -147,7 +147,7 @@ export default function DonationIndex() {
                     <TabPanel>
                         <div>
                             <div>
-                                <p className="font-inter text-gray-800 mb-5 text-center font-semibold mt-5">Donasi Paket Bantuan</p>
+                                <p className="font-inter text-gray-800 mb-5 text-center font-semibold mt-5">Nominal Donasi</p>
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                     {availableDonations.map((availableDonation, i) => (
                                         <button
