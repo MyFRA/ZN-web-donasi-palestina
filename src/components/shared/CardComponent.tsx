@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function CardComponent({ children }: { children: React.ReactNode }) {
-    return <div className="p-5 rounded-md bg-white mb-5">{children}</div>;
+    return <div className="px-5 py-4 rounded-md bg-white">{children}</div>;
 }

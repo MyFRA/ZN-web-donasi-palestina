@@ -236,7 +236,7 @@ export default function CheckoutIndex() {
                 </div>
                 <div>
                     <div className="mb-3">
-                        <label htmlFor="province" className="font-inter text-sm text-gray-800">
+                        <label htmlFor="province" className="font-inter text-sm text-[#4A4A4A]">
                             Provinsi
                         </label>
                         <Select
@@ -344,7 +344,7 @@ export default function CheckoutIndex() {
                                 onChange={(e) => {
                                     setDistrict(e.target.value);
                                 }}
-                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                 placeholder="Kecamatan"
                             />
                         </div>
@@ -360,7 +360,7 @@ export default function CheckoutIndex() {
                                 onChange={(e) => {
                                     setVillage(e.target.value);
                                 }}
-                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                 placeholder="Desa"
                             />
                         </div>
@@ -376,7 +376,7 @@ export default function CheckoutIndex() {
                                 onChange={(e) => {
                                     setHomeOfficeAddress(e.target.value);
                                 }}
-                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                 placeholder="Alamat Rumah / Kantor"
                             ></textarea>
                         </div>
@@ -392,7 +392,7 @@ export default function CheckoutIndex() {
                                 onChange={(e) => {
                                     setPostalCode(e.target.value);
                                 }}
-                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                 placeholder="Kode Pos"
                             />
                         </div>
@@ -408,7 +408,7 @@ export default function CheckoutIndex() {
                                 onChange={(e) => {
                                     setNote(e.target.value);
                                 }}
-                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                 placeholder="Catatan Pengiriman (Opsional)"
                             ></textarea>
                         </div>
@@ -519,7 +519,7 @@ export default function CheckoutIndex() {
                             type="text"
                             name="fullname"
                             id="fullname"
-                            className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                            className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                             placeholder="Nama Lengkap"
                             value={fullname}
                             onChange={(e) => {
@@ -537,7 +537,7 @@ export default function CheckoutIndex() {
                             onChange={(e) => {
                                 setWhatsappNumber(e.target.value);
                             }}
-                            className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                            className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                             placeholder="No Whatsapp atau Handphone"
                         />
                     </div>
@@ -551,7 +551,7 @@ export default function CheckoutIndex() {
                             onChange={(e) => {
                                 setEmail(e.target.value);
                             }}
-                            className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                            className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                             placeholder="Email"
                         />
                     </div>
@@ -566,7 +566,7 @@ export default function CheckoutIndex() {
                                 onChange={(e) => {
                                     setMessage(e.target.value);
                                 }}
-                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                                className="border-[0.5px] border-gray-300 rounded w-full px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                 placeholder="Pesan / Doa (Opsional)"
                             ></textarea>
                         </div>
@@ -575,8 +575,8 @@ export default function CheckoutIndex() {
                 <hr className="my-3" />
                 <div>
                     <div className="flex items-center mb-1 justify-between font-inter">
-                        <h3 className="text-gray-800">Sub Total</h3>
-                        <h3 className="font-semibold text-gray-800">
+                        <h3 className="text-[#4A4A4A]">Sub Total</h3>
+                        <h3 className="font-semibold text-[#4A4A4A]">
                             Rp
                             {cartProducts
                                 .reduce((prev: number, cur: ProductInterface) => (prev = prev + cur.price * (cur.qty ? cur.qty : 0)), 0)
@@ -585,17 +585,17 @@ export default function CheckoutIndex() {
                         </h3>
                     </div>
                     <div className="flex items-center mb-1 justify-between font-inter">
-                        <h3 className="text-gray-800">Ongkos Kirim</h3>
-                        <h3 className="font-semibold text-gray-800">{selectedCost ? selectedCost.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "-"}</h3>
+                        <h3 className="text-[#4A4A4A]">Ongkos Kirim</h3>
+                        <h3 className="font-semibold text-[#4A4A4A]">{selectedCost ? selectedCost.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "-"}</h3>
                     </div>
                     <div className="flex items-center mb-1 justify-between font-inter">
-                        <h3 className="text-gray-800 text-lg font-semibold">Total</h3>
-                        <h3 className="font-semibold text-lg text-gray-800">Rp{(cartProducts.reduce((prev: number, cur: ProductInterface) => (prev = prev + cur.price * (cur.qty ? cur.qty : 0)), 0) + parseInt(selectedCost ? selectedCost.value.toString() : "0")).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h3>
+                        <h3 className="text-[#4A4A4A] text-lg font-semibold">Total</h3>
+                        <h3 className="font-semibold text-lg text-[#4A4A4A]">Rp{(cartProducts.reduce((prev: number, cur: ProductInterface) => (prev = prev + cur.price * (cur.qty ? cur.qty : 0)), 0) + parseInt(selectedCost ? selectedCost.value.toString() : "0")).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h3>
                     </div>
                 </div>
                 <hr className="my-5" />
                 <div>
-                    <button type="button" onClick={doCheckout} className="flex w-full items-center justify-center py-3 flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-blue-500 text-base">
+                    <button type="button" onClick={doCheckout} className="flex w-full items-center justify-center py-3 flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-[#00AEEF] text-base">
                         Beli Rp{(cartProducts.reduce((prev: number, cur: ProductInterface) => (prev = prev + cur.price * (cur.qty ? cur.qty : 0)), 0) + parseInt(selectedCost ? selectedCost.value.toString() : "0")).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
                     </button>
                 </div>

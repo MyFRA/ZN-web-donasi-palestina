@@ -130,7 +130,7 @@ export default function CartsIndex() {
                                                     decreaseQtyCart(cartProduct);
                                                 }}
                                             >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-minus text-blue-500" width="18" height="18" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-minus text-[#00AEEF]" width="18" height="18" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                     <path d="M5 12l14 0" />
                                                 </svg>
@@ -142,7 +142,7 @@ export default function CartsIndex() {
                                                     increaseQtyCart(cartProduct);
                                                 }}
                                             >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-plus text-blue-500" width="18" height="18" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-plus text-[#00AEEF]" width="18" height="18" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                     <path d="M12 5l0 14" />
                                                     <path d="M5 12l14 0" />
@@ -187,7 +187,7 @@ export default function CartsIndex() {
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
                         </h4>
                     </div>
-                    <button onClick={moveToCheckoutPage} className="bg-blue-500 text-white font-semibold rounded py-1.5 px-3">
+                    <button onClick={moveToCheckoutPage} className="bg-[#00AEEF] text-white font-semibold rounded py-1.5 px-3">
                         Checkout
                     </button>
                 </div>

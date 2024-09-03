@@ -11,7 +11,7 @@ export default function SuccessIndex() {
                 <p className="text-center font-inter mt-4 text-gray-600">Terima Kasih telah melakukan donasi, semoga donasi anda bisa berkah dan bermanfaat bagi anak anak di Palestina</p>
                 <br />
                 <br />
-                <Link to={"/"} className="py-2 flex items-center justify-center flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-blue-500 text-base">
+                <Link to={"/"} className="py-2 flex items-center justify-center flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-[#00AEEF] text-base">
                     Kembali ke Beranda
                 </Link>
             </CardComponent>

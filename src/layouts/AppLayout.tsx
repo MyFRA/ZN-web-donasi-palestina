@@ -12,7 +12,7 @@ export default function AppLayout() {
             <LoadingComponent loading={loading} />
             <div className="mx-auto md:w-[525px] bg-white">
                 <NavbarComponent />
-                <div className="pt-24 px-2 lg:px-0">
+                <div className="pt-16 px-2 lg:px-0">
                     <Outlet />
                 </div>
             </div>

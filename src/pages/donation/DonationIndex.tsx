@@ -130,24 +130,24 @@ export default function DonationIndex() {
                     )}
                     <div>
                         <span className="font-inter text-gray-400 text-xs">Anda akan berdonasi dalam program:</span>
-                        <h2 className="font-inter text-gray-800 mt-1 text-sm font-semibold">{settingWebDonation?.title}</h2>
+                        <h2 className="font-inter text-[#4A4A4A] mt-1 text-sm font-semibold">{settingWebDonation?.title}</h2>
                     </div>
                 </div>
                 <hr className="mt-6 mb-4" />
                 <Tabs onSelect={(index) => setSelectedTabs(index)}>
                     <TabList className={"flex justify-between border-b-[1px] border-gray-400"}>
                         <Tab>
-                            <span className={`px-2 py-1 block font-inter text-sm text-blue-500 ${selectedTabs == 0 ? "text-gray-500 font-semibold" : ""}`}>Nominal Donasi</span>
+                            <span className={`px-2 py-1 block font-inter text-sm text-[#00AEEF] ${selectedTabs == 0 ? "text-gray-500 font-semibold" : ""}`}>Nominal Donasi</span>
                         </Tab>
                         {/* <Tab>
-                            <span className={`px-2 py-1 block font-inter text-sm text-blue-500 ${selectedTabs == 1 ? "text-gray-500 font-semibold" : ""}`}>Donasi Dengan Membeli Produk</span>
+                            <span className={`px-2 py-1 block font-inter text-sm text-[#00AEEF] ${selectedTabs == 1 ? "text-gray-500 font-semibold" : ""}`}>Donasi Dengan Membeli Produk</span>
                         </Tab> */}
                     </TabList>
 
                     <TabPanel>
                         <div>
                             <div>
-                                <p className="font-inter text-gray-800 mb-5 text-center font-semibold mt-5">Nominal Donasi</p>
+                                <p className="font-inter text-[#4A4A4A] mb-5 text-center font-semibold mt-5">Nominal Donasi</p>
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                     {availableDonations.map((availableDonation, i) => (
                                         <button
@@ -155,10 +155,10 @@ export default function DonationIndex() {
                                             onClick={() => {
                                                 setSelectedDonation(availableDonation);
                                             }}
-                                            className={` rounded-xl cursor-pointer flex flex-col items-center justify-center p-5 ${selectedDonation?.value == availableDonation.value ? "border-[2.5px] border-blue-500" : ""}`}
+                                            className={` rounded-xl cursor-pointer flex flex-col items-center justify-center p-5 ${selectedDonation?.value == availableDonation.value ? "border-[2.5px] border-[#00AEEF]" : ""}`}
                                             style={{ boxShadow: "0 4px 25px 0 rgba(0,0,0,.1)" }}
                                         >
-                                            <h4 className={`font-inter ${selectedDonation?.value == availableDonation.value ? "text-blue-500 font-semibold" : "text-gray-700"}`}>{availableDonation.title}</h4>
+                                            <h4 className={`font-inter ${selectedDonation?.value == availableDonation.value ? "text-[#00AEEF] font-semibold" : "text-gray-700"}`}>{availableDonation.title}</h4>
                                             <span className="text-xs font-inter mt-1 text-gray-500 text-center">{availableDonation.short_description}</span>
                                         </button>
                                     ))}
@@ -178,7 +178,7 @@ export default function DonationIndex() {
                                     <input
                                         type="text"
                                         name="custom_price"
-                                        className="text-right w-full mt-4 border-[0.5px] p-3 rounded focus:outline-blue-500 text-gray-700 text-xl font-semibold placeholder:font-normal placeholder:text-lg placeholder:text-gray-400 font-inter border-gray-300"
+                                        className="text-right w-full mt-4 border-[0.5px] p-3 rounded focus:outline-[#00AEEF] text-gray-700 text-xl font-semibold placeholder:font-normal placeholder:text-lg placeholder:text-gray-400 font-inter border-gray-300"
                                         placeholder="Masukan Nominal"
                                         id="custom_price"
                                         value={!nominalLainnya ? "" : "Rp " + nominalLainnya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
@@ -186,7 +186,7 @@ export default function DonationIndex() {
                                             setNominalLainnya(parseInt(e.target.value.replaceAll(".", "").replace("Rp ", "")));
                                         }}
                                     />
-                                    <h4 className="absolute top-1/2 translate-y-[-6px] text-lg left-2.5 font-inter text-blue-500 font-semibold">Rp</h4>
+                                    <h4 className="absolute top-1/2 translate-y-[-6px] text-lg left-2.5 font-inter text-[#00AEEF] font-semibold">Rp</h4>
                                 </div>
                             ) : (
                                 <></>
@@ -209,7 +209,7 @@ export default function DonationIndex() {
                                                     onClick={() => {
                                                         setAmountPackageDonation(amountPackageDonation - 1);
                                                     }}
-                                                    className="flex items-center justify-center rounded-md text-white font-inter font-semibold bg-blue-500 text-base h-full w-12"
+                                                    className="flex items-center justify-center rounded-md text-white font-inter font-semibold bg-[#00AEEF] text-base h-full w-12"
                                                 >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline w-5 icon-tabler-minus">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -221,7 +221,7 @@ export default function DonationIndex() {
                                                 type="number"
                                                 name="amount_package"
                                                 id="amount_package"
-                                                className="border-[0.5px] text-center border-gray-300 rounded w-full px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                                                className="border-[0.5px] text-center border-gray-300 rounded w-full px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                                 placeholder="Jumlah Paket"
                                                 value={amountPackageDonation}
                                                 onChange={(e) => {
@@ -234,7 +234,7 @@ export default function DonationIndex() {
                                                     onClick={() => {
                                                         setAmountPackageDonation(amountPackageDonation + 1);
                                                     }}
-                                                    className="flex items-center justify-center rounded-md text-white font-inter font-semibold bg-blue-500 text-base h-full w-12"
+                                                    className="flex items-center justify-center rounded-md text-white font-inter font-semibold bg-[#00AEEF] text-base h-full w-12"
                                                 >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline w-5 icon-tabler-plus">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -260,7 +260,7 @@ export default function DonationIndex() {
                                         type="text"
                                         name="fullname"
                                         id="fullname"
-                                        className="border-[0.5px] border-gray-300 rounded w-full px-4 mt-1 text-sm focus:outline-blue-500 font-inter py-3"
+                                        className="border-[0.5px] border-gray-300 rounded w-full px-4 mt-1 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                         placeholder="Nama Lengkap"
                                         value={fullname}
                                         onChange={(e) => {
@@ -287,7 +287,7 @@ export default function DonationIndex() {
                                     onChange={(e) => {
                                         setWhatsappNumber(e.target.value);
                                     }}
-                                    className="border-[0.5px] border-gray-300 rounded w-full px-4 mt-1 text-sm focus:outline-blue-500 font-inter py-3"
+                                    className="border-[0.5px] border-gray-300 rounded w-full px-4 mt-1 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                     placeholder="No Whatsapp atau Handphone (Opsional)"
                                 />
                             </div>
@@ -303,7 +303,7 @@ export default function DonationIndex() {
                                     onChange={(e) => {
                                         setEmail(e.target.value);
                                     }}
-                                    className="border-[0.5px] border-gray-300 rounded w-full px-4 mt-1 text-sm focus:outline-blue-500 font-inter py-3"
+                                    className="border-[0.5px] border-gray-300 rounded w-full px-4 mt-1 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                     placeholder="Email (Opsional)"
                                 />
                             </div>
@@ -318,13 +318,13 @@ export default function DonationIndex() {
                                     onChange={(e) => {
                                         setMessage(e.target.value);
                                     }}
-                                    className="h-[120px] border-[0.5px] border-gray-300 rounded w-full mt-1 px-4 text-sm focus:outline-blue-500 font-inter py-3"
+                                    className="h-[120px] border-[0.5px] border-gray-300 rounded w-full mt-1 px-4 text-sm focus:outline-[#00AEEF] font-inter py-3"
                                     placeholder="Pesan atau Doa (Opsional)"
                                 ></textarea>
                             </div>
                             <hr className="my-3" />
                             <div className="flex items-center gap-x-2">
-                                <button type="button" onClick={doDonate} className="flex items-center justify-center py-3 flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-blue-500 text-base">
+                                <button type="button" onClick={doDonate} className="flex items-center justify-center py-3 flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-[#00AEEF] text-base">
                                     Donasi {selectedDonation != null ? (selectedDonation?.value != "lainnya" ? "Rp " + (parseInt(selectedDonation?.value) * amountPackageDonation).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "Rp " + nominalLainnya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")) : ""}
                                 </button>
                             </div>
@@ -332,7 +332,7 @@ export default function DonationIndex() {
                     </TabPanel>
                     {/* <TabPanel>
                         <div>
-                            <p className="font-inter text-gray-800 text-center font-semibold mt-5">Donasi Dengan Membeli Produk</p>
+                            <p className="font-inter text-[#4A4A4A] text-center font-semibold mt-5">Donasi Dengan Membeli Produk</p>
                             <p className="text-center font-inter text-gray-500 text-sm mt-2">Setiap hasil dari penjualan langsung didonasikan untuk mendukung kebutuhan mendesak dan membangun masa depan yang lebih baik bagi Palestina. Bersama kita bisa membuat perbedaan</p>
                         </div>
                         <hr className="my-5" />
@@ -362,7 +362,7 @@ export default function DonationIndex() {
                                                         }
                                                     );
                                                 }}
-                                                className="bg-blue-500 text-white w-full rounded font-inter font-semibold flex justify-center items-center py-1.5 mt-3 gap-x-1"
+                                                className="bg-[#00AEEF] text-white w-full rounded font-inter font-semibold flex justify-center items-center py-1.5 mt-3 gap-x-1"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-shopping-cart text-white" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />

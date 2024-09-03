@@ -9,4 +9,7 @@ interface SettingWebDonationInterface {
     description: string;
     created_at: string;
     updated_at: string;
+    donation_target: number;
 }
+
+export default SettingWebDonationInterface;

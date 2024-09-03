@@ -244,6 +244,55 @@ export default function HomeIndex() {
             </main>
             {/* End of Modal Share */}
 
+            {/* Modal Detail Company */}
+            {/* You can open the modal using document.getElementById('ID').showModal() method */}
+            <dialog id="modalDetailCompany" className="modal">
+                <div className="modal-box">
+                    <form method="dialog">
+                        {/* if there is a button in form, it will close the modal */}
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                    </form>
+
+                    <div className="text-[#00AEEF] mt-3 flex items-center gap-x-4">
+                        {settingCompany?.company_logo_url ? (
+                            <img className="w-14 rounded-full" src={settingCompany?.company_logo_url} alt="" />
+                        ) : (
+                            <ContentLoader viewBox="0 0 380 70">
+                                <circle cx="30" cy="30" r="30" />
+                            </ContentLoader>
+                        )}
+                        <div>
+                            <h4 className="font-inter text-[#00AEEF] text-base font-semibold">{settingCompany?.company_name}</h4>
+                            <div className="flex items-center gap-x-1 mt-1.5">
+                                <img className="w-10" src="https://donasipalestina.id/wp-content/plugins/donasiaja/assets/images/check-org2.png" alt="" />
+                                <span className="font-inter italic text-gray-400 text-xs">Verified Organization</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="text-sm mt-7 text-gray-600" dangerouslySetInnerHTML={{ __html: `${settingCompany?.company_description}` }}></div>
+                    <div className="mt-3">
+                        <div className="mb-2">
+                            <b className="text-sm font-bold text-gray-800">Email</b>
+                            <p className="text-sm text-gray-600">{settingCompany?.company_email}</p>
+                        </div>
+                        <div className="mb-2">
+                            <b className="text-sm font-bold text-gray-800">No Telp</b>
+                            <p className="text-sm text-gray-600">{settingCompany?.company_phone_number}</p>
+                        </div>
+                        <div className="mb-2">
+                            <b className="text-sm font-bold text-gray-800">Alamat</b>
+                            <p className="text-sm text-gray-600">{settingCompany?.company_address}</p>
+                        </div>
+                    </div>
+                    <hr className="my-5" />
+                    <form method="dialog" className="flex justify-end">
+                        <button type="submit" className="btn">
+                            Tutup
+                        </button>
+                    </form>
+                </div>
+            </dialog>
+            {/* End of Modal Detail Company */}
             {settingWebDonation?.thumbnails ? (
                 <Splide options={{ rewind: true, type: "loop", autoplay: true }} aria-label="React Splide Example">
                     {settingWebDonation.thumbnails.map((thumbnail) => (
@@ -259,9 +308,9 @@ export default function HomeIndex() {
                 </ContentLoader>
             )}
 
-            <div className="p-5 bg-white rounded-b-md-lg">
-                <h1 className="font-inter text-gray-800 text-xl font-semibold">{settingWebDonation?.title}</h1>
-                <span className="flex items-center mt-3 gap-x-1.5">
+            <div className="px-4 py-3 bg-white rounded-b-md-lg">
+                <h1 className="font-inter text-[#4A4A4A] text-xl font-bold">{settingWebDonation?.title}</h1>
+                <span className="flex items-center mt-1 gap-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-300 icon icon-tabler icon-tabler-map-pin" width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
@@ -270,13 +319,15 @@ export default function HomeIndex() {
                     <span className="text-gray-400 text-xs font-inter">Gaza, Palestina</span>
                 </span>
                 <div className="mt-3">
-                    <span className="flex items-center gap-x-1.5">
-                        <h3 className="font-inter text-gray-600 text-lg font-semibold">Rp {StringUtil.formatRupiah(amountDonation)}</h3>
-                        <p className="font-inter text-gray-600 text-xs">dan masih terus dikumpulkan</p>
+                    <span>
+                        <h3 className="font-inter text-[#00AEEF] text-lg font-bold">Rp {StringUtil.formatRupiah(amountDonation)}</h3>
+                        <p className="font-inter text-xs mt-0.5 text-gray-600">
+                            Terkumpul dari <b className="text-gray-700">Rp {settingWebDonation?.donation_target ? StringUtil.formatRupiah(settingWebDonation?.donation_target) : 0}</b>
+                        </p>
                     </span>
-                    <div className="mt-1.5">
-                        <div className="bg-gray-300 rounded-md h-3">
-                            <div className="bg-gradient-to-r rounded-md from-green-600 to-green-200 w-[5%] h-full"></div>
+                    <div className="mt-3">
+                        <div className="bg-gray-300 rounded-md h-1.5">
+                            <div className={`bg-gradient-to-r rounded-md bg-[#00AEEF] h-full`} style={{ width: `${(amountDonation / settingWebDonation?.donation_target) * 100}%` }}></div>
                         </div>
                         <div className="mt-2.5">
                             <span className="flex items-center gap-x-1 font-inter text-gray-600">
@@ -285,16 +336,21 @@ export default function HomeIndex() {
                         </div>
                     </div>
                 </div>
-                <div className="mt-6">
-                    <Link to={"/donate"} className="block bg-blue-500 w-full rounded-md text-center text-white font-inter font-semibold py-2" ref={btnDonationRef}>
+                <div className="mt-3">
+                    <Link to={"/donate"} className="block bg-[#00AEEF] w-full rounded-md text-center text-white font-inter font-semibold py-2 hover:bg-opacity-80" ref={btnDonationRef}>
                         Donasi Sekarang!
                     </Link>
                 </div>
             </div>
             <hr />
             <CardComponent>
-                <h3 className="font-inter text-lg font-semibold text-gray-800">Penggalang Dana</h3>
-                <a href="#" className="text-blue-500 mt-4 flex items-center gap-x-6">
+                <h3 className="font-inter text-lg font-semibold text-[#4A4A4A]">Penggalang Dana</h3>
+                <div
+                    className="text-[#00AEEF] mt-3 flex items-center gap-x-4 cursor-pointer"
+                    onClick={() => {
+                        (document.getElementById("modalDetailCompany") as HTMLDialogElement).showModal();
+                    }}
+                >
                     {settingCompany?.company_logo_url ? (
                         <img className="w-16 rounded-full" src={settingCompany?.company_logo_url} alt="" />
                     ) : (
@@ -303,26 +359,26 @@ export default function HomeIndex() {
                         </ContentLoader>
                     )}
                     <div>
-                        <h4 className="font-inter text-blue-500 text-lg">{settingCompany?.company_name}</h4>
-                        <div className="flex items-center gap-x-2 mt-1">
+                        <h4 className="font-inter text-[#00AEEF] text-base font-semibold">{settingCompany?.company_name}</h4>
+                        <div className="flex items-center gap-x-1 mt-1.5">
                             <img className="w-10" src="https://donasipalestina.id/wp-content/plugins/donasiaja/assets/images/check-org2.png" alt="" />
                             <span className="font-inter italic text-gray-400 text-xs">Verified Organization</span>
                         </div>
                     </div>
-                </a>
+                </div>
             </CardComponent>
             <hr />
             <CardComponent>
                 <Tabs onSelect={(index) => setSelectedTabs(index)}>
                     <TabList>
                         <Tab>
-                            <span className={`px-2 py-3 font-inter text-xs md:text-sm text-blue-500 ${selectedTabs == 0 ? "text-gray-500 font-semibold" : ""}`}>Keterangan</span>
+                            <span className={`px-2 py-3 font-inter text-xs md:text-sm text-[#00AEEF] ${selectedTabs == 0 ? "text-gray-500 font-semibold" : ""}`}>Keterangan</span>
                         </Tab>
                         <Tab>
-                            <span className={`px-2 py-3 font-inter text-xs md:text-sm text-blue-500 ${selectedTabs == 1 ? "text-gray-500 font-semibold" : ""}`}>Kabar Terbaru</span>
+                            <span className={`px-2 py-3 font-inter text-xs md:text-sm text-[#00AEEF] ${selectedTabs == 1 ? "text-gray-500 font-semibold" : ""}`}>Kabar Terbaru</span>
                         </Tab>
                         <Tab>
-                            <span className={`px-2 py-3 font-inter text-xs md:text-sm text-blue-500 ${selectedTabs == 2 ? "text-gray-500 font-semibold" : ""}`}>Donatur ({StringUtil.formatRupiah(totalDonatur)})</span>
+                            <span className={`px-2 py-3 font-inter text-xs md:text-sm text-[#00AEEF] ${selectedTabs == 2 ? "text-gray-500 font-semibold" : ""}`}>Donatur ({StringUtil.formatRupiah(totalDonatur)})</span>
                         </Tab>
                     </TabList>
 
@@ -339,7 +395,7 @@ export default function HomeIndex() {
                                     onClick={() => {
                                         setTab1Expand(!tab1Expand);
                                     }}
-                                    className="bg-blue-50 mt-4 text-blue-500 py-2 hover:bg-blue-100 rounded-md text-center font-inter text-xs w-full flex items-center justify-center gap-x-1"
+                                    className="bg-blue-50 mt-4 text-[#00AEEF] py-2 hover:bg-blue-100 rounded-md text-center font-inter text-xs w-full flex items-center justify-center gap-x-1"
                                 >
                                     {tab1Expand ? "Baca dengan ringkas " : "Baca Selengkapnya "}
                                     <span
@@ -358,7 +414,7 @@ export default function HomeIndex() {
                                 <div className="flex items-start justify-between h-full">
                                     <div className="flex-[1] flex flex-col items-start gap-y-2 relative self-stretch">
                                         <div>
-                                            <div className="bg-blue-500 border-4 border-white w-[17px] h-[17px] rounded-full"></div>
+                                            <div className="bg-[#00AEEF] border-4 border-white w-[17px] h-[17px] rounded-full"></div>
                                         </div>
                                         <div className="w-0.5 bg-gray-200 h-full translate-x-[6px]"></div>
                                     </div>
@@ -371,7 +427,7 @@ export default function HomeIndex() {
                                                     toggleOpenedNewsIndex(i);
                                                 }}
                                             >
-                                                <h3 className="text-sm font-semibold text-gray-800">{newsItem.title}</h3>
+                                                <h3 className="text-sm font-semibold text-[#4A4A4A]">{newsItem.title}</h3>
                                                 <span
                                                     className="pl-6 text-lg text-gray-400"
                                                     dangerouslySetInnerHTML={{
@@ -381,7 +437,7 @@ export default function HomeIndex() {
                                             </div>
                                         </div>
                                         <div className={`font-inter transition duration-200 ease-in-out ${openedNewsIndex.findIndex((v) => v == i) >= 0 ? "h-full" : "h-0 invisible"}`}>
-                                            <h4 className="text-sm mt-3 text-gray-800 italic mb-2">{newsItem.subtitle}</h4>
+                                            <h4 className="text-sm mt-3 text-[#4A4A4A] italic mb-2">{newsItem.subtitle}</h4>
                                             <div className="mb-2 text-sm text-gray-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: newsItem.content }}></div>
                                         </div>
                                     </div>
@@ -476,18 +532,18 @@ export default function HomeIndex() {
                             onClick={() => {
                                 setModalShareOpen(true);
                             }}
-                            className="flex-[2.9] flex items-center justify-center gap-x-2 border-[3px] border-blue-500 py-1 rounded-md"
+                            className="flex-[2.9] flex items-center justify-center gap-x-2 border-[3px] border-[#00AEEF] py-1 rounded-md"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-share-3 text-blue-500" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-share-3 text-[#00AEEF]" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M13 4v4c-6.575 1.028 -9.02 6.788 -10 12c-.037 .206 5.384 -5.962 10 -6v4l8 -7l-8 -7z" />
                             </svg>
-                            <div className="font-inter flex flex-col text-blue-500 items-start">
+                            <div className="font-inter flex flex-col text-[#00AEEF] items-start">
                                 <b className="text-sm font-semibold">Share</b>
                                 <span className="text-[10px]">Bagikan</span>
                             </div>
                         </button>
-                        <Link to={"/donate"} className="flex items-center justify-center flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-blue-500 text-base">
+                        <Link to={"/donate"} className="flex items-center justify-center flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-[#00AEEF] text-base">
                             Donasi Sekarang
                         </Link>
                     </div>
