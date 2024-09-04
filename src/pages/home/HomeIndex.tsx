@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import CardComponent from "../../components/shared/CardComponent";
 import Api from "../../utils/Api";
@@ -16,6 +15,7 @@ import ContentLoader from "react-content-loader";
 import "@splidejs/react-splide/css";
 // @ts-expect-error: JS Package
 import { Splide, SplideSlide } from "@splidejs/react-splide";
+import spdf from "simple-react-pdf";
 
 export default function HomeIndex() {
     /**
@@ -28,7 +28,6 @@ export default function HomeIndex() {
      * Main State
      *
      */
-    const [selectedTabs, setSelectedTabs] = useState<number>(0);
     const [tab1Expand, setTab1Expand] = useState<boolean>(false);
     const [modalShareOpen, setModalShareOpen] = useState<boolean>(false);
     const [offsetY, setOffsetY] = useState<number>(0);
@@ -369,128 +368,200 @@ export default function HomeIndex() {
             </CardComponent>
             <hr />
             <CardComponent>
-                <Tabs onSelect={(index) => setSelectedTabs(index)}>
-                    <TabList>
-                        <Tab>
-                            <span className={`px-2 py-3 font-inter text-xs md:text-sm text-[#00AEEF] ${selectedTabs == 0 ? "text-gray-500 font-semibold" : ""}`}>Keterangan</span>
-                        </Tab>
-                        <Tab>
-                            <span className={`px-2 py-3 font-inter text-xs md:text-sm text-[#00AEEF] ${selectedTabs == 1 ? "text-gray-500 font-semibold" : ""}`}>Kabar Terbaru</span>
-                        </Tab>
-                        <Tab>
-                            <span className={`px-2 py-3 font-inter text-xs md:text-sm text-[#00AEEF] ${selectedTabs == 2 ? "text-gray-500 font-semibold" : ""}`}>Donatur ({StringUtil.formatRupiah(totalDonatur)})</span>
-                        </Tab>
-                    </TabList>
-
-                    <TabPanel>
-                        <div className="font-inter mt-4">
-                            <div className="font-inter text-sm text-gray-700">
-                                <div
-                                    className={`${tab1Expand ? "" : "max-h-20 overflow-hidden"}`}
-                                    dangerouslySetInnerHTML={{
-                                        __html: settingWebDonation ? settingWebDonation.description : "",
-                                    }}
-                                ></div>
-                                <button
-                                    onClick={() => {
-                                        setTab1Expand(!tab1Expand);
-                                    }}
-                                    className="bg-blue-50 mt-4 text-[#00AEEF] py-2 hover:bg-blue-100 rounded-md text-center font-inter text-xs w-full flex items-center justify-center gap-x-1"
-                                >
-                                    {tab1Expand ? "Baca dengan ringkas " : "Baca Selengkapnya "}
-                                    <span
-                                        className={`text-lg ${tab1Expand ? "-translate-y-2" : "translate-y-2"}`}
+                <div className="flex flex-col gap-2">
+                    <div className="collapse rounded-lg shadow-sm border outline-none focus:outline-none focus:border-none active:border-none active:outline-none collapse-arrow bg-white">
+                        <input type="checkbox" className="outline-none" />
+                        <div className="collapse-title text-base text-gray-700 font-bold">Keterangan</div>
+                        <div className="collapse-content">
+                            <hr className="mb-4" />
+                            <div className="font-inter">
+                                <div className="font-inter text-sm text-gray-700">
+                                    <div
+                                        className={`${tab1Expand ? "" : "max-h-20 overflow-hidden"}`}
                                         dangerouslySetInnerHTML={{
-                                            __html: tab1Expand ? "&#129169" : "&#129171;",
+                                            __html: settingWebDonation ? settingWebDonation.description : "",
                                         }}
-                                    ></span>
-                                </button>
+                                    ></div>
+                                    <button
+                                        onClick={() => {
+                                            setTab1Expand(!tab1Expand);
+                                        }}
+                                        className="bg-blue-50 mt-4 text-[#00AEEF] py-2 hover:bg-blue-100 rounded-md text-center font-inter text-xs w-full flex items-center justify-center gap-x-1"
+                                    >
+                                        {tab1Expand ? "Baca dengan ringkas " : "Baca Selengkapnya "}
+                                        <span
+                                            className={`text-lg ${tab1Expand ? "-translate-y-2" : "translate-y-2"}`}
+                                            dangerouslySetInnerHTML={{
+                                                __html: tab1Expand ? "&#129169" : "&#129171;",
+                                            }}
+                                        ></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </TabPanel>
-                    <TabPanel>
-                        <div className="flex flex-col gap-y-2 w-full">
-                            {news.map((newsItem, i) => (
-                                <div className="flex items-start justify-between h-full">
-                                    <div className="flex-[1] flex flex-col items-start gap-y-2 relative self-stretch">
-                                        <div>
-                                            <div className="bg-[#00AEEF] border-4 border-white w-[17px] h-[17px] rounded-full"></div>
-                                        </div>
-                                        <div className="w-0.5 bg-gray-200 h-full translate-x-[6px]"></div>
-                                    </div>
-                                    <div className="flex-[7] pr-8">
-                                        <div className="cursor-pointer font-inter">
-                                            <span className="text-xs text-gray-400">{newsItem.created_at_for_humans}</span>
-                                            <div
-                                                className="flex items-start justify-between mt-1 hover:underline"
-                                                onClick={() => {
-                                                    toggleOpenedNewsIndex(i);
-                                                }}
-                                            >
-                                                <h3 className="text-sm font-semibold text-[#4A4A4A]">{newsItem.title}</h3>
-                                                <span
-                                                    className="pl-6 text-lg text-gray-400"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: openedNewsIndex.findIndex((v) => v == i) >= 0 ? "&#129171" : "&#129170",
-                                                    }}
-                                                ></span>
+                    </div>
+                    <div className="collapse rounded-lg shadow-sm border outline-none focus:outline-none focus:border-none active:border-none active:outline-none collapse-arrow bg-white">
+                        <input type="checkbox" className="outline-none" />
+                        <div className="collapse-title text-base text-gray-700 font-bold">Kabar Terbaru</div>
+                        <div className="collapse-content">
+                            <hr className="mb-4" />
+                            <div className="relative">
+                                <div className="flex flex-col gap-y-2 w-full">
+                                    {news.map((newsItem, i) => (
+                                        <div className="flex items-start justify-between h-full">
+                                            <div className="flex-[1] flex flex-col items-start gap-y-2 relative self-stretch">
+                                                <div>
+                                                    <div className="bg-[#00AEEF] border-4 border-white w-[17px] h-[17px] rounded-full"></div>
+                                                </div>
+                                                <div className="w-0.5 bg-gray-200 h-full translate-x-[6px]"></div>
+                                            </div>
+                                            <div className="flex-[7] pr-8">
+                                                <div className="cursor-pointer font-inter">
+                                                    <span className="text-xs text-gray-400">{newsItem.created_at_for_humans}</span>
+                                                    <div
+                                                        className="flex items-start justify-between mt-1 hover:underline"
+                                                        onClick={() => {
+                                                            toggleOpenedNewsIndex(i);
+                                                        }}
+                                                    >
+                                                        <h3 className="text-sm font-semibold text-[#4A4A4A]">{newsItem.title}</h3>
+                                                        <span
+                                                            className="pl-6 text-lg text-gray-400"
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: openedNewsIndex.findIndex((v) => v == i) >= 0 ? "&#129171" : "&#129170",
+                                                            }}
+                                                        ></span>
+                                                    </div>
+                                                </div>
+                                                <div className={`font-inter transition duration-200 ease-in-out ${openedNewsIndex.findIndex((v) => v == i) >= 0 ? "h-full" : "h-0 invisible"}`}>
+                                                    <h4 className="text-sm mt-3 text-[#4A4A4A] italic mb-2">{newsItem.subtitle}</h4>
+                                                    <div className="mb-2 text-sm text-gray-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: newsItem.content }}></div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className={`font-inter transition duration-200 ease-in-out ${openedNewsIndex.findIndex((v) => v == i) >= 0 ? "h-full" : "h-0 invisible"}`}>
-                                            <h4 className="text-sm mt-3 text-[#4A4A4A] italic mb-2">{newsItem.subtitle}</h4>
-                                            <div className="mb-2 text-sm text-gray-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: newsItem.content }}></div>
+                                    ))}
+                                </div>
+                                <div className="flex justify-center">
+                                    {newsPagination?.next_page_url ? (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                loadNews(newsPagination.next_page_url?.toString());
+                                            }}
+                                            className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-5"
+                                        >
+                                            Load More
+                                        </button>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="collapse rounded-lg shadow-sm border outline-none focus:outline-none focus:border-none active:border-none active:outline-none collapse-arrow bg-white">
+                        <input type="checkbox" className="outline-none" />
+                        <div className="collapse-title text-base text-gray-700 font-bold">Donatur ({StringUtil.formatRupiah(totalDonatur)})</div>
+                        <div className="collapse-content">
+                            <hr className="mb-4" />
+                            <div className="relative">
+                                <div className="flex flex-col gap-y-3 px-3 py-4">
+                                    {arrDonatur.map((donatur) => (
+                                        <div className="font-inter bg-blue-50 rounded-md p-4">
+                                            <div className="flex justify-between items-start">
+                                                <h4 className="text-sm font-semibold text-gray-700">{donatur.fullname}</h4>
+                                                <span className="text-xs text-gray-600">{donatur.created_at_for_humans}</span>
+                                            </div>
+                                            <p className="text-sm text-gray-700 mt-1">
+                                                Berdonasi sebesar <b className="text-gray-700">Rp {StringUtil.formatRupiah(donatur.amount)}</b>
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="flex justify-center">
+                                    {donaturPagination?.next_page_url ? (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                loadArrDonatur(donaturPagination.next_page_url?.toString());
+                                            }}
+                                            className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-2"
+                                        >
+                                            Load More
+                                        </button>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="collapse rounded-lg shadow-sm border outline-none focus:outline-none focus:border-none active:border-none active:outline-none collapse-arrow bg-white">
+                        <input type="checkbox" className="outline-none" />
+                        <div className="collapse-title text-base text-gray-700 font-bold">Profil</div>
+                        <div className="collapse-content">
+                            <hr className="mb-4" />
+                            <div className="relative">
+                                <div className="text-[#00AEEF] mt-3 flex items-center gap-x-4">
+                                    {settingCompany?.company_logo_url ? (
+                                        <img className="w-14 rounded-full" src={settingCompany?.company_logo_url} alt="" />
+                                    ) : (
+                                        <ContentLoader viewBox="0 0 380 70">
+                                            <circle cx="30" cy="30" r="30" />
+                                        </ContentLoader>
+                                    )}
+                                    <div>
+                                        <h4 className="font-inter text-[#00AEEF] text-base font-semibold">{settingCompany?.company_name}</h4>
+                                        <div className="flex items-center gap-x-1 mt-1.5">
+                                            <img className="w-10" src="https://donasipalestina.id/wp-content/plugins/donasiaja/assets/images/check-org2.png" alt="" />
+                                            <span className="font-inter italic text-gray-400 text-xs">Verified Organization</span>
                                         </div>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                        <div className="flex justify-center">
-                            {newsPagination?.next_page_url ? (
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        loadNews(newsPagination.next_page_url?.toString());
-                                    }}
-                                    className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-5"
-                                >
-                                    Load More
-                                </button>
-                            ) : (
-                                <></>
-                            )}
-                        </div>
-                    </TabPanel>
-                    <TabPanel>
-                        <div className="flex flex-col gap-y-3 px-3 py-4">
-                            {arrDonatur.map((donatur) => (
-                                <div className="font-inter bg-blue-50 rounded-md p-4">
-                                    <div className="flex justify-between items-start">
-                                        <h4 className="text-sm font-semibold text-gray-700">{donatur.fullname}</h4>
-                                        <span className="text-xs text-gray-600">{donatur.created_at_for_humans}</span>
+                                <div className="text-sm mt-7 text-gray-600" dangerouslySetInnerHTML={{ __html: `${settingCompany?.company_description}` }}></div>
+                                <div className="mt-3">
+                                    <div className="mb-2">
+                                        <b className="text-sm font-bold text-gray-800">Email</b>
+                                        <p className="text-sm text-gray-600">{settingCompany?.company_email}</p>
                                     </div>
-                                    <p className="text-sm text-gray-700 mt-1">
-                                        Berdonasi sebesar <b className="text-gray-700">Rp {StringUtil.formatRupiah(donatur.amount)}</b>
-                                    </p>
+                                    <div className="mb-2">
+                                        <b className="text-sm font-bold text-gray-800">No Telp</b>
+                                        <p className="text-sm text-gray-600">{settingCompany?.company_phone_number}</p>
+                                    </div>
+                                    <div className="mb-2">
+                                        <b className="text-sm font-bold text-gray-800">Alamat</b>
+                                        <p className="text-sm text-gray-600">{settingCompany?.company_address}</p>
+                                    </div>
                                 </div>
-                            ))}
+                            </div>
                         </div>
-                        <div className="flex justify-center">
-                            {donaturPagination?.next_page_url ? (
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        loadArrDonatur(donaturPagination.next_page_url?.toString());
-                                    }}
-                                    className="cursor-pointer py-3 px-6 font-inter bg-gray-800 text-white text-xs rounded-md mt-2"
-                                >
-                                    Load More
-                                </button>
-                            ) : (
-                                <></>
-                            )}
+                    </div>
+                    <div className="collapse rounded-lg shadow-sm border outline-none focus:outline-none focus:border-none active:border-none active:outline-none collapse-arrow bg-white">
+                        <input type="checkbox" className="outline-none" />
+                        <div className="collapse-title text-base text-gray-700 font-bold">Produk</div>
+                        <div className="collapse-content">
+                            <hr className="mb-4" />
+                            <div className="relative flex flex-col gap-4">
+                                <img src="/tenda-1.jpeg" className="rounded" alt="" />
+                                <img src="/tenda-2.jpeg" className="rounded" alt="" />
+                                <img src="/tenda-3.jpeg" className="rounded" alt="" />
+                                <img src="/tenda-4.jpeg" className="rounded" alt="" />
+                            </div>
                         </div>
-                    </TabPanel>
-                </Tabs>
+                    </div>
+                    <div className="collapse rounded-lg shadow-sm border outline-none focus:outline-none focus:border-none active:border-none active:outline-none collapse-arrow bg-white">
+                        <input type="checkbox" className="outline-none" />
+                        <div className="collapse-title text-base text-gray-700 font-bold">Legalitas</div>
+                        <div className="collapse-content">
+                            <hr className="mb-4" />
+                            <div className="relative flex flex-col gap-4">
+                                <a className="btn" href="/AKTA YAYASAN BALI BESTARI MALIK.pdf" target="_blank">
+                                    Lihat Akta Legalitas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </CardComponent>
             <hr />
             <CardComponent>
