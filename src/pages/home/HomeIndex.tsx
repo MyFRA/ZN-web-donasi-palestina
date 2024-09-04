@@ -542,10 +542,10 @@ export default function HomeIndex() {
                         <div className="collapse-content">
                             <hr className="mb-4" />
                             <div className="relative flex flex-col gap-4">
-                                <img src="/tenda-1.jpeg" className="rounded" alt="" />
-                                <img src="/tenda-2.jpeg" className="rounded" alt="" />
-                                <img src="/tenda-3.jpeg" className="rounded" alt="" />
-                                <img src="/tenda-4.jpeg" className="rounded" alt="" />
+                                <img src="/static/tenda-1.jpeg" className="rounded" alt="" />
+                                <img src="/static/tenda-2.jpeg" className="rounded" alt="" />
+                                <img src="/static/tenda-3.jpeg" className="rounded" alt="" />
+                                <img src="/static/tenda-4.jpeg" className="rounded" alt="" />
                             </div>
                         </div>
                     </div>
@@ -555,7 +555,7 @@ export default function HomeIndex() {
                         <div className="collapse-content">
                             <hr className="mb-4" />
                             <div className="relative flex flex-col gap-4">
-                                <a className="btn" href="/AKTA YAYASAN BALI BESTARI MALIK.pdf" target="_blank">
+                                <a className="btn" href="/static/AKTA YAYASAN BALI BESTARI MALIK.pdf" target="_blank">
                                     Lihat Akta Legalitas
                                 </a>
                             </div>
