@@ -336,7 +336,7 @@ export default function HomeIndex() {
                     </div>
                 </div>
                 <div className="mt-3">
-                    <Link to={"/donate"} className="block bg-[#00AEEF] w-full rounded-md text-center text-white font-inter font-semibold py-2 hover:bg-opacity-80" ref={btnDonationRef}>
+                    <Link to={"/donate"} className="block bg-[#00AEEF] w-full rounded-md text-center text-white font-inter font-semibold py-2 hover:bg-opacity-80 duration-300" ref={btnDonationRef}>
                         Donasi Sekarang!
                     </Link>
                 </div>
@@ -358,7 +358,7 @@ export default function HomeIndex() {
                         </ContentLoader>
                     )}
                     <div>
-                        <h4 className="font-inter text-[#00AEEF] text-base font-semibold">{settingCompany?.company_name}</h4>
+                        <h4 className="font-inter text-[#00AEEF] text-base font-semibold hover:opacity-80 duration-300">{settingCompany?.company_name}</h4>
                         <div className="flex items-center gap-x-1 mt-1.5">
                             <img className="w-10" src="https://donasipalestina.id/wp-content/plugins/donasiaja/assets/images/check-org2.png" alt="" />
                             <span className="font-inter italic text-gray-400 text-xs">Verified Organization</span>
@@ -542,6 +542,7 @@ export default function HomeIndex() {
                         <div className="collapse-content">
                             <hr className="mb-4" />
                             <div className="relative flex flex-col gap-4">
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/Zf7aWv2PkLg?si=Y2rj_P7I68u0IyN9" title="YouTube video player" frameBorder={"0"} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full rounded-lg"></iframe>
                                 <img src="/static/tenda-1.jpeg" className="rounded" alt="" />
                                 <img src="/static/tenda-2.jpeg" className="rounded" alt="" />
                                 <img src="/static/tenda-3.jpeg" className="rounded" alt="" />
@@ -553,8 +554,8 @@ export default function HomeIndex() {
                         <input type="checkbox" className="outline-none" />
                         <div className="collapse-title text-base text-gray-700 font-bold">Legalitas</div>
                         <div className="collapse-content">
-                            <hr className="mb-4" />
-                            <div className="relative flex flex-col gap-4">
+                            <div className="relative flex flex-col">
+                                <img src="/static/AKTA YAYASAN BALI BESTARI MALIK.png" alt="" />
                                 <a className="btn" href="/static/AKTA YAYASAN BALI BESTARI MALIK.pdf" target="_blank">
                                     Lihat Akta Legalitas
                                 </a>
@@ -603,7 +604,7 @@ export default function HomeIndex() {
                             onClick={() => {
                                 setModalShareOpen(true);
                             }}
-                            className="flex-[2.9] flex items-center justify-center gap-x-2 border-[3px] border-[#00AEEF] py-1 rounded-md"
+                            className="flex-[2.9] flex items-center justify-center gap-x-2 border shadow border-[#00AEEF] py-2 rounded-md"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-share-3 text-[#00AEEF]" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -611,10 +612,9 @@ export default function HomeIndex() {
                             </svg>
                             <div className="font-inter flex flex-col text-[#00AEEF] items-start">
                                 <b className="text-sm font-semibold">Share</b>
-                                <span className="text-[10px]">Bagikan</span>
                             </div>
                         </button>
-                        <Link to={"/donate"} className="flex items-center justify-center flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-[#00AEEF] text-base">
+                        <Link to={"/donate"} className="flex items-center justify-center flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-[#00AEEF] text-base hover:bg-opacity-80 duration-300">
                             Donasi Sekarang
                         </Link>
                     </div>
