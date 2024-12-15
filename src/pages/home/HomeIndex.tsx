@@ -321,7 +321,7 @@ export default function HomeIndex() {
                     <span>
                         <h3 className="font-inter text-[#00AEEF] text-lg font-bold">Rp {StringUtil.formatRupiah(amountDonation)}</h3>
                         <p className="font-inter text-xs mt-0.5 text-gray-600">
-                            Terkumpul dari <b className="text-gray-700">Rp {settingWebDonation?.donation_target ? StringUtil.formatRupiah(settingWebDonation?.donation_target) : 0}</b>
+                            Terkumpul dari <b className="text-gray-700">Rp {StringUtil.formatRupiah(settingWebDonation?.donation_target ? settingWebDonation?.donation_target : 0)}</b>
                         </p>
                     </span>
                     <div className="mt-3">
