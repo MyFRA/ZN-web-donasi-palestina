@@ -15,7 +15,6 @@ import ContentLoader from "react-content-loader";
 import "@splidejs/react-splide/css";
 // @ts-expect-error: JS Package
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-import spdf from "simple-react-pdf";
 
 export default function HomeIndex() {
     /**
@@ -292,20 +291,22 @@ export default function HomeIndex() {
                 </div>
             </dialog>
             {/* End of Modal Detail Company */}
-            {settingWebDonation?.thumbnails ? (
-                <Splide options={{ rewind: true, type: "loop", autoplay: true }} aria-label="React Splide Example">
-                    {settingWebDonation.thumbnails.map((thumbnail) => (
-                        <SplideSlide>
-                            <img src={thumbnail.thumbnail} style={{ objectFit: "cover", objectPosition: "center", width: "100%" }} className="rounded-t-md h-[200px] lg:h-[275px]" />
-                        </SplideSlide>
-                    ))}
-                </Splide>
-            ) : (
-                <ContentLoader viewBox="0 0 380 150">
-                    {/* Only SVG shapes */}
-                    <rect x="0" y="0" rx="5" ry="5" width="100%" height="150" />
-                </ContentLoader>
-            )}
+            <div className="flex justify-center">
+                {settingWebDonation?.thumbnails ? (
+                    <Splide options={{ rewind: true, type: "loop", autoplay: true, perPage: 1, gap: 20, width: "95%" }} aria-label="React Splide Example">
+                        {settingWebDonation.thumbnails.map((thumbnail) => (
+                            <SplideSlide>
+                                <img src={thumbnail.thumbnail} style={{ objectFit: "cover", objectPosition: "center", width: "100%" }} className="rounded-xl aspect-video" />
+                            </SplideSlide>
+                        ))}
+                    </Splide>
+                ) : (
+                    <ContentLoader viewBox="0 0 380 150">
+                        {/* Only SVG shapes */}
+                        <rect x="0" y="0" rx="5" ry="5" width="100%" height="150" />
+                    </ContentLoader>
+                )}
+            </div>
 
             <div className="px-4 py-3 bg-white rounded-b-md-lg">
                 <h1 className="font-inter text-[#4A4A4A] text-xl font-bold">{settingWebDonation?.title}</h1>
@@ -554,11 +555,43 @@ export default function HomeIndex() {
                         <input type="checkbox" className="outline-none" />
                         <div className="collapse-title text-base text-gray-700 font-bold">Legalitas</div>
                         <div className="collapse-content">
-                            <div className="relative flex flex-col">
-                                <img src="/static/AKTA YAYASAN BALI BESTARI MALIK.png" alt="" />
-                                <a className="btn" href="/static/AKTA YAYASAN BALI BESTARI MALIK.pdf" target="_blank">
-                                    Lihat Akta Legalitas
-                                </a>
+                            <div className="flex flex-col gap-4">
+                                <div className="relative flex flex-col border-b pb-5">
+                                    <img src="/static/AKTA YAYASAN BALI BESTARI MALIK.png" alt="" />
+                                    <a className="btn mt-3" href="/static/AKTA YAYASAN BALI BESTARI MALIK.pdf" target="_blank">
+                                        Lihat Akta Legalitas
+                                    </a>
+                                </div>
+                                <div className="relative flex flex-col border-b pb-5">
+                                    <img src="/static/bnri.png" alt="" />
+                                    <a className="btn mt-3" href="/static/bnri.pdf" target="_blank">
+                                        Lihat BNRI
+                                    </a>
+                                </div>
+                                <div className="relative flex flex-col border-b pb-5">
+                                    <img src="/static/nib.png" alt="" />
+                                    <a className="btn mt-3" href="/static/nib.pdf" target="_blank">
+                                        Lihat NIB
+                                    </a>
+                                </div>
+                                <div className="relative flex flex-col border-b pb-5">
+                                    <img src="/static/sk-humham.png" alt="" />
+                                    <a className="btn mt-3" href="/static/sk-humham.pdf" target="_blank">
+                                        Lihat SK HUMHAM
+                                    </a>
+                                </div>
+                                <div className="relative flex flex-col border-b pb-5">
+                                    <img src="/static/npwp.png" alt="" />
+                                    <a className="btn mt-3" href="/static/npwp.pdf" target="_blank">
+                                        Lihat NPWP
+                                    </a>
+                                </div>
+                                <div className="relative flex flex-col border-b pb-5">
+                                    <img src="/static/legalitas-vendor-pembuat-tenda.png" alt="" />
+                                    <a className="btn mt-3" href="/static/legalitas-vendor-pembuat-tenda.pdf" target="_blank">
+                                        Lihat Legalitas Vendor Pembuat Tenda
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
