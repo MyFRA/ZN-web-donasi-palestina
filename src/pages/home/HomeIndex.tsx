@@ -27,7 +27,7 @@ export default function HomeIndex() {
      * Main State
      *
      */
-    const [tab1Expand, setTab1Expand] = useState<boolean>(false);
+    const [tab1Expand, setTab1Expand] = useState<boolean>(true);
     const [modalShareOpen, setModalShareOpen] = useState<boolean>(false);
     const [offsetY, setOffsetY] = useState<number>(0);
     const [showDonationComponentBottom, setShowDonationComponentBottom] = useState(false);
@@ -371,7 +371,7 @@ export default function HomeIndex() {
             <CardComponent>
                 <div className="flex flex-col gap-2">
                     <div className="collapse rounded-lg shadow-sm border outline-none focus:outline-none focus:border-none active:border-none active:outline-none collapse-arrow bg-white">
-                        <input type="checkbox" className="outline-none" />
+                        <input type="checkbox" className="outline-none" checked />
                         <div className="collapse-title text-base text-gray-700 font-bold">Keterangan</div>
                         <div className="collapse-content">
                             <hr className="mb-4" />
@@ -548,6 +548,80 @@ export default function HomeIndex() {
                                 <img src="/static/tenda-2.jpeg" className="rounded" alt="" />
                                 <img src="/static/tenda-3.jpeg" className="rounded" alt="" />
                                 <img src="/static/tenda-4.jpeg" className="rounded" alt="" />
+                                <div className="border rounded p-2 border-gray-300">
+                                    <div className="overflow-x-auto">
+                                        <table className="table table-xs">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Vol</th>
+                                                    <th>Unit</th>
+                                                    <th>Unit Price (Rp.)</th>
+                                                    <th>Total Price (Rp.)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Besi Hollow 40x40x1.8 mm</td>
+                                                    <td>132</td>
+                                                    <td>M1</td>
+                                                    <td>125.000</td>
+                                                    <td>16.500.000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Plate Sambungan</td>
+                                                    <td>1.25</td>
+                                                    <td>M2</td>
+                                                    <td>2.000.000</td>
+                                                    <td>2.500.000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Plate Strip Pengunci</td>
+                                                    <td>16</td>
+                                                    <td>M1</td>
+                                                    <td>40.000</td>
+                                                    <td>640.000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>Baut Sambungan</td>
+                                                    <td>160</td>
+                                                    <td>Pcs</td>
+                                                    <td>8.500</td>
+                                                    <td>1.360.000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5</td>
+                                                    <td>Kain Tenda/Membrane</td>
+                                                    <td>147</td>
+                                                    <td>M2</td>
+                                                    <td>250.000</td>
+                                                    <td>36.750.000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6</td>
+                                                    <td>Asessories</td>
+                                                    <td>1</td>
+                                                    <td>Ls</td>
+                                                    <td>3.000.000</td>
+                                                    <td>3.000.000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>7</td>
+                                                    <td>Cat Besi</td>
+                                                    <td>1</td>
+                                                    <td>Ls</td>
+                                                    <td>1.750.000</td>
+                                                    <td>1.750.000</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
