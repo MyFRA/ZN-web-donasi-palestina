@@ -36,3 +36,7 @@
         --bc: 27.8078% 0.029596 256.847952;
     }
 }
+
+.keterangan p {
+    text-align: justify !important;
+}

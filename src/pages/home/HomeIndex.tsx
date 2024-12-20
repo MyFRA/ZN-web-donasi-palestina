@@ -371,12 +371,12 @@ export default function HomeIndex() {
             <CardComponent>
                 <div className="flex flex-col gap-2">
                     <div className="collapse rounded-lg shadow-sm border outline-none focus:outline-none focus:border-none active:border-none active:outline-none collapse-arrow bg-white">
-                        <input type="checkbox" className="outline-none" checked />
+                        <input type="checkbox" className="outline-none" defaultChecked />
                         <div className="collapse-title text-base text-gray-700 font-bold">Keterangan</div>
                         <div className="collapse-content">
                             <hr className="mb-4" />
                             <div className="font-inter">
-                                <div className="font-inter text-sm text-gray-700">
+                                <div className="font-inter text-sm text-gray-700 keterangan">
                                     <div
                                         className={`${tab1Expand ? "" : "max-h-20 overflow-hidden"}`}
                                         dangerouslySetInnerHTML={{
