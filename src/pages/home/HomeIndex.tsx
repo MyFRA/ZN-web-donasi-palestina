@@ -592,6 +592,12 @@ export default function HomeIndex() {
                                         Lihat Legalitas Vendor Pembuat Tenda
                                     </a>
                                 </div>
+                                <div className="relative flex flex-col border-b pb-5">
+                                    <img src="/static/compro-glamping.id-Bali-2024.png" alt="" />
+                                    <a className="btn mt-3" href="/static/compro-glamping.id-Bali-2024.pdf" target="_blank">
+                                        Lihat Info Company Profile Vendor Pembuat Tenda
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
