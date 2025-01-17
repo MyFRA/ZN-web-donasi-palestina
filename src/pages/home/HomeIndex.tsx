@@ -558,33 +558,33 @@ export default function HomeIndex() {
                         <div className="collapse-content">
                             <div className="flex flex-col gap-4">
                                 <div className="relative flex flex-col border-b pb-5">
-                                    <img src="/static/AKTA YAYASAN BALI BESTARI MALIK.png" alt="" />
-                                    <a className="btn mt-3" href="/static/AKTA YAYASAN BALI BESTARI MALIK.pdf" target="_blank">
-                                        Lihat Akta Legalitas
+                                    <img src="/static/docs/Akta-Notaris-Yayasan.png" alt="" />
+                                    <a className="btn mt-3" href="/static/docs/Akta-Notaris-Yayasan.pdf" target="_blank">
+                                        Lihat Akta Notaris Yayasan
                                     </a>
                                 </div>
                                 <div className="relative flex flex-col border-b pb-5">
-                                    <img src="/static/bnri.png" alt="" />
-                                    <a className="btn mt-3" href="/static/bnri.pdf" target="_blank">
-                                        Lihat BNRI
+                                    <img src="/static/docs/Legalitas.png" alt="" />
+                                    <a className="btn mt-3" href="/static/docs/Legalitas.pdf" target="_blank">
+                                        Lihat Legalitas
                                     </a>
                                 </div>
                                 <div className="relative flex flex-col border-b pb-5">
-                                    <img src="/static/nib.png" alt="" />
-                                    <a className="btn mt-3" href="/static/nib.pdf" target="_blank">
-                                        Lihat NIB
+                                    <img src="/static/docs/NPWP-Yayasan.png" alt="" />
+                                    <a className="btn mt-3" href="/static/docs/NPWP-Yayasan.pdf" target="_blank">
+                                        Lihat NPWP Yayasan
                                     </a>
                                 </div>
                                 <div className="relative flex flex-col border-b pb-5">
-                                    <img src="/static/sk-humham.png" alt="" />
-                                    <a className="btn mt-3" href="/static/sk-humham.pdf" target="_blank">
-                                        Lihat SK HUMHAM
+                                    <img src="/static/docs/Surat-Keterangan-Domisili-Lembaga.png" alt="" />
+                                    <a className="btn mt-3" href="/static/docs/Surat-Keterangan-Domisili-Lembaga.pdf" target="_blank">
+                                        Lihat Surat Keterangan Domisili Lembaga
                                     </a>
                                 </div>
                                 <div className="relative flex flex-col border-b pb-5">
-                                    <img src="/static/npwp.png" alt="" />
-                                    <a className="btn mt-3" href="/static/npwp.pdf" target="_blank">
-                                        Lihat NPWP
+                                    <img src="/static/docs/SURAT-PERNYATAAN.png" alt="" />
+                                    <a className="btn mt-3" href="/static/docs/SURAT-PERNYATAAN.pdf" target="_blank">
+                                        Lihat Surat Pernyataan
                                     </a>
                                 </div>
                                 <div className="relative flex flex-col border-b pb-5">
