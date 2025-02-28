@@ -88,11 +88,12 @@ export default function DonationIndex() {
         })
             .then((res) => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (window.snap as any).pay(res.data.token, {
-                    onSuccess: function () {
-                        navigate("/success");
-                    },
-                });
+                // (window.snap as any).pay(res.data.token, {
+                //     onSuccess: function () {
+                //         navigate("/success");
+                //     },
+                // });
+                window.open(res.data.paymentUrl, "_blank");
             })
             .catch((error) => {
                 const err = error as AxiosError;
