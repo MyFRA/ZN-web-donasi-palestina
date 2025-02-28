@@ -93,7 +93,7 @@ export default function DonationIndex() {
                 //         navigate("/success");
                 //     },
                 // });
-                window.open(res.data.paymentUrl, "_blank");
+                window.open(res.data.paymentUrl);
             })
             .catch((error) => {
                 const err = error as AxiosError;
