@@ -588,6 +588,12 @@ export default function HomeIndex() {
                                     </a>
                                 </div>
                                 <div className="relative flex flex-col border-b pb-5">
+                                    <img src="/static/docs/statement-letter.png" alt="" />
+                                    <a className="btn mt-3" href="/static/docs/statement-letter.pdf" target="_blank">
+                                        Lihat Statement Letter
+                                    </a>
+                                </div>
+                                <div className="relative flex flex-col border-b pb-5">
                                     <img src="/static/legalitas-vendor-pembuat-tenda.png" alt="" />
                                     <a className="btn mt-3" href="/static/legalitas-vendor-pembuat-tenda.pdf" target="_blank">
                                         Lihat Legalitas Vendor Pembuat Tenda
@@ -598,6 +604,29 @@ export default function HomeIndex() {
                                     <a className="btn mt-3" href="/static/compro-glamping.id-Bali-2024.pdf" target="_blank">
                                         Lihat Info Company Profile Vendor Pembuat Tenda
                                     </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="collapse rounded-lg shadow-sm border outline-none focus:outline-none focus:border-none active:border-none active:outline-none collapse-arrow bg-white">
+                        <input type="checkbox" className="outline-none" />
+                        <div className="collapse-title text-base text-gray-700 font-bold">Hubungi Kami</div>
+                        <div className="collapse-content">
+                            <hr className="mb-4" />
+                            <div className="relative">
+                                <div className="mt-3">
+                                    <div className="mb-2">
+                                        <b className="text-sm font-bold text-gray-800">Email</b>
+                                        <p className="text-sm text-gray-600">{settingCompany?.company_email}</p>
+                                    </div>
+                                    <div className="mb-2">
+                                        <b className="text-sm font-bold text-gray-800">No Telp</b>
+                                        <p className="text-sm text-gray-600">{settingCompany?.company_phone_number}</p>
+                                    </div>
+                                    <div className="mb-2">
+                                        <b className="text-sm font-bold text-gray-800">Alamat</b>
+                                        <p className="text-sm text-gray-600">{settingCompany?.company_address}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
