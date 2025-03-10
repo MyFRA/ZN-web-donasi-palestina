@@ -126,7 +126,9 @@ export default function DonationIndex() {
                 // });
                 // window.open(res.data.paymentUrl);
                 setCloseVaObj(res.data.data);
-                doOpenModalVA();
+                setTimeout(() => {
+                    doOpenModalVA();
+                }, 300);
             })
             .catch((error) => {
                 const err = error as AxiosError;
