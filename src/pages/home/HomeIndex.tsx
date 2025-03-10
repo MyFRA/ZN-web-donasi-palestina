@@ -588,6 +588,18 @@ export default function HomeIndex() {
                                     </a>
                                 </div>
                                 <div className="relative flex flex-col border-b pb-5">
+                                    <img src="/static/docs/sk-menkumham.png" alt="" />
+                                    <a className="btn mt-3" href="/static/docs/sk-menkumham.pdf" target="_blank">
+                                        Lihat SK Menkumham
+                                    </a>
+                                </div>
+                                <div className="relative flex flex-col border-b pb-5">
+                                    <img src="/static/docs/PERJANJIAN-PT-PANDAWA-DAN-PONPES-NURIMA.png" alt="" />
+                                    <a className="btn mt-3" href="/static/docs/PERJANJIAN-PT-PANDAWA-DAN-PONPES-NURIMA.pdf" target="_blank">
+                                        Lihat Draft Perjanjian
+                                    </a>
+                                </div>
+                                <div className="relative flex flex-col border-b pb-5">
                                     <img src="/static/docs/statement-letter.png" alt="" />
                                     <a className="btn mt-3" href="/static/docs/statement-letter.pdf" target="_blank">
                                         Lihat Statement Letter
