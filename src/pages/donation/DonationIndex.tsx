@@ -9,6 +9,10 @@ import { LoadingContext } from "../../context/LoadingContext";
 import { useNavigate } from "react-router-dom";
 import ContentLoader from "react-content-loader";
 import SettingWebDonationInterface from "../../interfaces/SettingWebDonationInterface";
+import VirtualBankAccount from "../../interfaces/VirtualBankAccount";
+import { CloseVaObj } from "../../interfaces/CloseVaObj";
+import { StringUtil } from "../../utils/StringUtil";
+import LoadingComponent from "../../components/shared/LoadingComponent";
 
 type AvailableDonationType = {
     description: string;
@@ -35,7 +39,7 @@ export default function DonationIndex() {
      * Context
      *
      */
-    const { setLoadingContext } = useContext(LoadingContext);
+    const { setLoadingContext, loading } = useContext(LoadingContext);
 
     /**
      * Main States
@@ -50,7 +54,10 @@ export default function DonationIndex() {
     const [email, setEmail] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const [settingWebDonation, setSettingWebDonation] = useState<SettingWebDonationInterface | null>(null);
+    const [virtualBankAccounts, setVirtualBankAccounts] = useState<VirtualBankAccount[] | null>(null);
     const [amountPackageDonation] = useState<number>(1);
+    const [selectedVirtualAccount, setSelectedVirtualAccount] = useState<VirtualBankAccount | null>(null);
+    const [closeVaObj, setCloseVaObj] = useState<CloseVaObj | null>(null);
 
     const handleChangeHideName = () => {
         setCheckedHideName(!checkedHideName);
@@ -59,6 +66,12 @@ export default function DonationIndex() {
     const loadAvailableDonations = () => {
         Api.get("/available-donations").then((res) => {
             setAvailableDonations(res.data.data);
+        });
+    };
+
+    const loadVirtualBankAccounts = () => {
+        Api.get("/virtual-bank-accounts").then((res) => {
+            setVirtualBankAccounts(res.data.data);
         });
     };
 
@@ -71,7 +84,24 @@ export default function DonationIndex() {
     useEffect(() => {
         loadAvailableDonations();
         loadSettingWebDonations();
+        loadVirtualBankAccounts();
     }, []);
+
+    const doCheckTransactionStatus = () => {
+        setLoadingContext(true);
+        Api.get(`/payment/status/${closeVaObj?.id}`)
+            .then((res) => {
+                if (res.data.data.status == "pending") {
+                    toast.error("Status transaksi masih pending");
+                    return;
+                }
+
+                window.location.href = "/success";
+            })
+            .finally(() => {
+                setLoadingContext(false);
+            });
+    };
 
     const doDonate = () => {
         setLoadingContext(true);
@@ -85,6 +115,7 @@ export default function DonationIndex() {
             message: message,
             custom_value: nominalLainnya,
             amount_package: amountPackageDonation,
+            short_bank_code: selectedVirtualAccount?.bank_short_code,
         })
             .then((res) => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -93,7 +124,9 @@ export default function DonationIndex() {
                 //         navigate("/success");
                 //     },
                 // });
-                window.open(res.data.paymentUrl);
+                // window.open(res.data.paymentUrl);
+                setCloseVaObj(res.data.data);
+                doOpenModalVA();
             })
             .catch((error) => {
                 const err = error as AxiosError;
@@ -104,6 +137,10 @@ export default function DonationIndex() {
             .finally(() => {
                 setLoadingContext(false);
             });
+    };
+
+    const doOpenModalVA = () => {
+        (document.getElementById("modalVA") as HTMLDialogElement)?.showModal();
     };
 
     return (
@@ -302,10 +339,89 @@ export default function DonationIndex() {
                         ></textarea>
                     </div>
                     <hr className="my-3" />
-                    <div className="flex items-center gap-x-2">
-                        <button type="button" onClick={doDonate} className="flex items-center justify-center py-3 flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-[#00AEEF] text-base">
+                    <div>
+                        <h6 className="font-inter text-sm text-gray-600 font-semibold">Pilih Metode Pembayaran</h6>
+                        <div className="grid grid-cols-3 gap-3 mt-2">
+                            {virtualBankAccounts?.map((virtualBankAccount) => (
+                                <button
+                                    className={`border-2 rounded-lg aspect-video cursor-pointer ${selectedVirtualAccount == virtualBankAccount ? "border-[#00AEEF] bg-[#00AEEF] bg-opacity-5" : ""}`}
+                                    onClick={() => {
+                                        setSelectedVirtualAccount(virtualBankAccount);
+                                    }}
+                                >
+                                    <div className="aspect-video items-center flex justify-center">
+                                        <img src={virtualBankAccount.image} className="h-full rounded-xl" alt="" />
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-x-2 mt-6">
+                        <button type="button" onClick={doDonate} className="flex items-center justify-center py-3 flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-[#00AEEF] disabled:bg-opacity-40 hover:bg-opacity-90 text-base" disabled={!selectedVirtualAccount}>
                             Donasi {selectedDonation != null ? (selectedDonation?.value != "lainnya" ? "Rp " + (parseInt(selectedDonation?.value) * amountPackageDonation).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "Rp " + nominalLainnya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")) : ""}
                         </button>
+                        {closeVaObj ? (
+                            <dialog id="modalVA" className="modal">
+                                <div className="modal-box">
+                                    <LoadingComponent loading={loading} />
+                                    <Toaster toastOptions={{ position: "top-center" }} containerStyle={{ top: "50%" }} />
+
+                                    <form method="dialog">
+                                        {/* if there is a button in form, it will close the modal */}
+                                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                    </form>
+                                    <div>
+                                        <img src={selectedVirtualAccount?.image} className="w-[40px]" alt="" />
+                                        <div className="flex flex-row justify-between items-center mt-5">
+                                            <div className="flex flex-col">
+                                                <span className="antialiased font-semibold text-sm text-duitk-dark">Nomor Akun Virtual</span>
+                                                <span className="text-2xl font-medium tracking-wide text-gray-700">{closeVaObj?.accountNo}</span>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    navigator.clipboard.writeText(`${closeVaObj?.accountNo}`);
+                                                    toast.success("Nomor akun virtual telah disalin");
+                                                }}
+                                                role="button"
+                                                className="hover:bg-gray-300 p-2 rounded-lg duration-300 btn"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <hr className="my-2" />
+                                    <div>
+                                        <ul className="flex flex-col gap-1.5">
+                                            <li className="flex justify-between">
+                                                <p>Donasi</p>
+                                                <p>Rp {StringUtil.formatRupiah(selectedDonation?.value == "lainnya" ? nominalLainnya : selectedDonation?.value)}</p>
+                                            </li>
+                                            <li className="flex justify-between">
+                                                <p>Biaya Admin VA</p>
+                                                <p>Rp {StringUtil.formatRupiah(3500)}</p>
+                                            </li>
+                                            <li className="flex justify-between">
+                                                <b className="text-lg">Total</b>
+                                                <b className="text-lg">Rp {StringUtil.formatRupiah(((selectedDonation?.value == "lainnya" ? nominalLainnya : selectedDonation?.value) as never) + 3500)}</b>
+                                            </li>
+                                        </ul>
+                                        <hr className="my-4" />
+                                        <button type="button" onClick={doCheckTransactionStatus} className="w-full flex items-center justify-center py-2 flex-[5] self-stretch rounded-md text-white font-inter font-semibold bg-[#00AEEF] disabled:bg-opacity-40 hover:bg-opacity-90 text-base">
+                                            Cek Status Transaksi
+                                        </button>
+                                    </div>
+                                </div>
+                            </dialog>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
                 {/* <TabPanel>

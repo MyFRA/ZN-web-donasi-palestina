@@ -571,6 +571,7 @@ export default function CheckoutIndex() {
                             ></textarea>
                         </div>
                     </div>
+                    <hr />
                 </div>
                 <hr className="my-3" />
                 <div>
